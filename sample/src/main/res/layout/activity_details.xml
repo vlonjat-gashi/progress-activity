@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activityToolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:elevation="2dp"
+        android:theme="@style/Toolbar" />
+
+    <com.vlonjatg.progressactivity.ProgressActivity
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/activityToolbar"
+        progressActivity:loadingStateBackgroundColor="#FFFFFF"
+        progressActivity:progressEmptyStateBackgroundColor="#fbc02d"
+        progressActivity:progressEmptyStateContentTextColor="#FFFFFF"
+        progressActivity:progressEmptyStateTitleTextColor="#FFFFFF"
+        progressActivity:progressErrorStateBackgroundColor="#42a5f5"
+        progressActivity:progressErrorStateButtonTextColor="#FFFFFF"
+        progressActivity:progressErrorStateContentTextColor="#FFFFFF"
+        progressActivity:progressErrorStateTitleTextColor="#FFFFFF">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/hello_world" />
+
+    </com.vlonjatg.progressactivity.ProgressActivity>
+
+</RelativeLayout>

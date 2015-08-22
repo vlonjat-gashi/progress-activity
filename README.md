@@ -4,7 +4,7 @@ If you are tired of constantly having to set up progress bars, empty views and e
 
 ### About
 
-Using progress-activity which extens from RelativeLayout, you can easily add states like
+Using progress-activity which extends from RelativeLayout, you can easily add states like
 
 - progress bar while the content is loading,
 - empty view to indicate when there are no data to display,
@@ -72,9 +72,21 @@ progressActivity.showError(errorDrawable, "No Connection",
 
 ### Get It
 
+````
+allprojects {
+        repositories {
+            jcenter()
+        }
+    }
+
+    dependencies {
+        compile 'com.vlonjatg.android:progress-activity:1.0'
+    }
+```
+
 ### Customization
 
-There are a bunch of atributes to cusomize the views
+There are a bunch of attributes to customize the views.
 
 ```
 <attr name="progressLoadingStateProgressBarWidth" format="dimension"/>

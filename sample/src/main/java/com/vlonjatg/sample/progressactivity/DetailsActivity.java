@@ -12,6 +12,9 @@ import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 import com.vlonjatg.progressactivity.ProgressActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DetailsActivity extends AppCompatActivity {
 
     Toolbar activityToolbar;
@@ -42,24 +45,27 @@ public class DetailsActivity extends AppCompatActivity {
                 .colorRes(android.R.color.white);
 
 
+        //Add which views you don't want to hide. In this case don't hide the toolbar
+        List<Integer> skipIds = new ArrayList<>();
+        skipIds.add(R.id.activityToolbar);
+
         String state = getIntent().getStringExtra("STATE");
         switch (state) {
             case "LOADING":
-                progressActivity.showLoading();
+                progressActivity.showLoading(skipIds);
                 setTitle("Loading");
                 break;
             case "EMPTY":
                 progressActivity.showEmpty(emptyDrawable,
                         "Empty Shopping Cart",
-                        "Please add things in the cart to continue.");
+                        "Please add things in the cart to continue.", skipIds);
                 setTitle("Empty");
                 break;
             case "ERROR":
                 progressActivity.showError(errorDrawable,
                         "No Connection",
                         "We could not establish a connection with our servers. Please try again when you are connected to the internet.",
-                        "Try Again",
-                        errorClickListener);
+                        "Try Again", errorClickListener, skipIds);
                 setTitle("Error");
                 break;
         }

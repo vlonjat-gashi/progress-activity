@@ -1,7 +1,17 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.vlonjatg.progressactivity.ProgressActivity
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/progress"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    progressActivity:progressLoadingStateBackgroundColor="#FFFFFF"
+    progressActivity:progressEmptyStateBackgroundColor="#fbc02d"
+    progressActivity:progressEmptyStateContentTextColor="#FFFFFF"
+    progressActivity:progressEmptyStateTitleTextColor="#FFFFFF"
+    progressActivity:progressErrorStateBackgroundColor="#42a5f5"
+    progressActivity:progressErrorStateButtonTextColor="#FFFFFF"
+    progressActivity:progressErrorStateContentTextColor="#FFFFFF"
+    progressActivity:progressErrorStateTitleTextColor="#FFFFFF">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activityToolbar"
@@ -10,27 +20,14 @@
         android:elevation="2dp"
         android:theme="@style/Toolbar" />
 
-    <com.vlonjatg.progressactivity.ProgressActivity
-        android:id="@+id/progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/activityToolbar"
-        progressActivity:loadingStateBackgroundColor="#FFFFFF"
-        progressActivity:progressEmptyStateBackgroundColor="#fbc02d"
-        progressActivity:progressEmptyStateContentTextColor="#FFFFFF"
-        progressActivity:progressEmptyStateTitleTextColor="#FFFFFF"
-        progressActivity:progressErrorStateBackgroundColor="#42a5f5"
-        progressActivity:progressErrorStateButtonTextColor="#FFFFFF"
-        progressActivity:progressErrorStateContentTextColor="#FFFFFF"
-        progressActivity:progressErrorStateTitleTextColor="#FFFFFF">
+        android:layout_marginTop="56dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/hello_world" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/hello_world" />
+</com.vlonjatg.progressactivity.ProgressActivity>
 
-    </com.vlonjatg.progressactivity.ProgressActivity>
-
-</RelativeLayout>

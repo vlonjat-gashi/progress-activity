@@ -91,7 +91,7 @@ There are a bunch of attributes to customize the views.
 ```
 <attr name="progressLoadingStateProgressBarWidth" format="dimension"/>
 <attr name="progressLoadingStateProgressBarHeight" format="dimension"/>
-<attr name="loadingStateBackgroundColor" format="color"/>
+<attr name="progressLoadingStateBackgroundColor" format="color"/>
 
 <attr name="progressEmptyStateImageWidth" format="dimension"/>
 <attr name="progressEmptyStateImageHeight" format="dimension"/>

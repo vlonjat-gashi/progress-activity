@@ -80,7 +80,7 @@ allprojects {
     }
 
     dependencies {
-        compile 'com.vlonjatg.android:progress-activity:1.1'
+        compile 'com.vlonjatg.android:progress-activity:1.1.1'
     }
 ```
 

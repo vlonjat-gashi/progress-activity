@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/errorViewRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        tools:ignore="UselessParent">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/errorStateImageView"
             android:layout_width="108dp"
             android:layout_height="108dp"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             tools:background="#000000"
             tools:ignore="ContentDescription" />
 
@@ -24,8 +24,7 @@
             android:id="@+id/errorStateTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/errorStateImageView"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="20dp"
@@ -37,8 +36,7 @@
             android:id="@+id/errorStateContentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/errorStateTitleTextView"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="56dp"
             android:layout_marginRight="56dp"
@@ -51,10 +49,9 @@
             android:id="@+id/errorStateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/errorStateContentTextView"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:text="@string/progressActivityErrorButton"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

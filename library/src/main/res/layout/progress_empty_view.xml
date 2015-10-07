@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/emptyViewRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:orientation="vertical"
         tools:ignore="UselessParent">
 
         <ImageView
             android:id="@+id/emptyStateImageView"
             android:layout_width="108dp"
             android:layout_height="108dp"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             tools:background="#000000"
             tools:ignore="ContentDescription" />
 
@@ -24,8 +25,7 @@
             android:id="@+id/emptyStateTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emptyStateImageView"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="20dp"
@@ -37,8 +37,7 @@
             android:id="@+id/emptyStateContentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/emptyStateTitleTextView"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="56dp"
             android:layout_marginRight="56dp"
@@ -47,6 +46,6 @@
             android:lineSpacingExtra="5.5dp"
             tools:text="@string/progressActivityEmptyContentPlaceholder" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

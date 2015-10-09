@@ -35,10 +35,10 @@ Add ```com.vlonjatg.progressactivity.ProgressActivity``` to your layout.
     android:layout_width="match_parent"
 	android:layout_height="match_parent"
     android:layout_below="@+id/activityToolbar"
-    progressActivity:loadingStateBackgroundColor="#FFFFFF"
-    progressActivity:progressEmptyStateBackgroundColor="#fbc02d"
-    progressActivity:progressErrorStateBackgroundColor="#42a5f5">
-
+    progressActivity:loadingBackgroundColor="#FFFFFF"
+    progressActivity:emptyBackgroundColor="#fbc02d"
+    progressActivity:errorBackgroundColor="#42a5f5">
+    
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -89,26 +89,26 @@ dependencies {
 There are a bunch of attributes to customize the views.
 
 ```
-<attr name="progressLoadingStateProgressBarWidth" format="dimension"/>
-<attr name="progressLoadingStateProgressBarHeight" format="dimension"/>
-<attr name="progressLoadingStateBackgroundColor" format="color"/>
+<attr name="loadingProgressBarWidth" format="dimension"/>
+<attr name="loadingProgressBarHeight" format="dimension"/>
+<attr name="loadingBackgroundColor" format="color"/>
 
-<attr name="progressEmptyStateImageWidth" format="dimension"/>
-<attr name="progressEmptyStateImageHeight" format="dimension"/>
-<attr name="progressEmptyStateTitleTextSize" format="dimension"/>
-<attr name="progressEmptyStateContentTextSize" format="dimension"/>
-<attr name="progressEmptyStateTitleTextColor" format="color"/>
-<attr name="progressEmptyStateContentTextColor" format="color"/>
-<attr name="progressEmptyStateBackgroundColor" format="color"/>
+<attr name="emptyImageWidth" format="dimension"/>
+<attr name="emptyImageHeight" format="dimension"/>
+<attr name="emptyTitleTextSize" format="dimension"/>
+<attr name="emptyContentTextSize" format="dimension"/>
+<attr name="emptyTitleTextColor" format="color"/>
+<attr name="emptyContentTextColor" format="color"/>
+<attr name="emptyBackgroundColor" format="color"/>
 
-<attr name="progressErrorStateImageWidth" format="dimension"/>
-<attr name="progressErrorStateImageHeight" format="dimension"/>
-<attr name="progressErrorStateTitleTextSize" format="dimension"/>
-<attr name="progressErrorStateContentTextSize" format="dimension"/>
-<attr name="progressErrorStateTitleTextColor" format="color"/>
-<attr name="progressErrorStateContentTextColor" format="color"/>
-<attr name="progressErrorStateButtonTextColor" format="color"/>
-<attr name="progressErrorStateBackgroundColor" format="color"/>
+<attr name="errorImageWidth" format="dimension"/>
+<attr name="errorImageHeight" format="dimension"/>
+<attr name="errorTitleTextSize" format="dimension"/>
+<attr name="errorContentTextSize" format="dimension"/>
+<attr name="errorTitleTextColor" format="color"/>
+<attr name="errorContentTextColor" format="color"/>
+<attr name="errorButtonTextColor" format="color"/>
+<attr name="errorBackgroundColor" format="color"/>
 ```
 
 ### Example

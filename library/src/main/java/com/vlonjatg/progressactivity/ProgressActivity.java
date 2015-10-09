@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /**
  * @author Vlonjat Gashi (vlonjatg)
  */
@@ -35,6 +36,7 @@ public class ProgressActivity extends RelativeLayout {
     LayoutInflater inflater;
     View view;
     LayoutParams layoutParams;
+    Drawable currentBackground;
 
     List<View> contentViews = new ArrayList<>();
 
@@ -96,69 +98,73 @@ public class ProgressActivity extends RelativeLayout {
 
         //Loading state attrs
         loadingStateProgressBarWidth =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressLoadingStateProgressBarWidth, 108);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_loadingProgressBarWidth, 108);
 
         loadingStateProgressBarHeight =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressLoadingStateProgressBarHeight, 108);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_loadingProgressBarHeight, 108);
 
         loadingStateBackgroundColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressLoadingStateBackgroundColor, Color.TRANSPARENT);
+                typedArray.getColor(R.styleable.ProgressActivity_loadingBackgroundColor, Color.TRANSPARENT);
 
         //Empty state attrs
         emptyStateImageWidth =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressEmptyStateImageWidth, 308);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyImageWidth, 308);
 
         emptyStateImageHeight =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressEmptyStateImageHeight, 308);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyImageHeight, 308);
 
         emptyStateTitleTextSize =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressEmptyStateTitleTextSize, 15);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyTitleTextSize, 15);
 
         emptyStateContentTextSize =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressEmptyStateContentTextSize, 14);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyContentTextSize, 14);
 
         emptyStateTitleTextColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressEmptyStateTitleTextColor, Color.BLACK);
+                typedArray.getColor(R.styleable.ProgressActivity_emptyTitleTextColor, Color.BLACK);
 
         emptyStateContentTextColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressEmptyStateContentTextColor, Color.BLACK);
+                typedArray.getColor(R.styleable.ProgressActivity_emptyContentTextColor, Color.BLACK);
 
         emptyStateBackgroundColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressEmptyStateBackgroundColor, Color.TRANSPARENT);
+                typedArray.getColor(R.styleable.ProgressActivity_emptyBackgroundColor, Color.TRANSPARENT);
 
         //Error state attrs
         errorStateImageWidth =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressErrorStateImageWidth, 308);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_errorImageWidth, 308);
 
         errorStateImageHeight =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressErrorStateImageHeight, 308);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_errorImageHeight, 308);
 
         errorStateTitleTextSize =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressErrorStateTitleTextSize, 15);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_errorTitleTextSize, 15);
 
         errorStateContentTextSize =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_progressErrorStateContentTextSize, 14);
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_errorContentTextSize, 14);
 
         errorStateTitleTextColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressErrorStateTitleTextColor, Color.BLACK);
+                typedArray.getColor(R.styleable.ProgressActivity_errorTitleTextColor, Color.BLACK);
 
         errorStateContentTextColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressErrorStateContentTextColor, Color.BLACK);
+                typedArray.getColor(R.styleable.ProgressActivity_errorContentTextColor, Color.BLACK);
 
         errorStateButtonTextColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressErrorStateButtonTextColor, Color.BLACK);
+                typedArray.getColor(R.styleable.ProgressActivity_errorButtonTextColor, Color.BLACK);
 
         errorStateBackgroundColor =
-                typedArray.getColor(R.styleable.ProgressActivity_progressErrorStateBackgroundColor, Color.TRANSPARENT);
+                typedArray.getColor(R.styleable.ProgressActivity_errorBackgroundColor, Color.TRANSPARENT);
 
         typedArray.recycle();
+
+        currentBackground = this.getBackground();
     }
 
     @Override
     public void addView(@NonNull View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
 
-        if (child.getTag() == null || (!child.getTag().equals(TAG_LOADING) && !child.getTag().equals(TAG_EMPTY) && !child.getTag().equals(TAG_ERROR))) {
+        if (child.getTag() == null || (!child.getTag().equals(TAG_LOADING) &&
+                !child.getTag().equals(TAG_EMPTY) && !child.getTag().equals(TAG_ERROR))) {
+
             contentViews.add(child);
         }
     }
@@ -212,7 +218,7 @@ public class ProgressActivity extends RelativeLayout {
      * @param emptyImageDrawable Drawable to show
      * @param emptyTextTitle     Title of the empty view to show
      * @param emptyTextContent   Content of the empty view to show
-     * @param skipIds Ids of views to not hide
+     * @param skipIds            Ids of views to not hide
      */
     public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent, List<Integer> skipIds) {
         switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, skipIds);
@@ -239,7 +245,7 @@ public class ProgressActivity extends RelativeLayout {
      * @param errorTextContent   Content of the error view to show
      * @param errorButtonText    Text on the error view button to show
      * @param onClickListener    Listener of the error view button
-     * @param skipIds Ids of views to not hide
+     * @param skipIds            Ids of views to not hide
      */
     public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, View.OnClickListener onClickListener, List<Integer> skipIds) {
         switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, skipIds);
@@ -349,7 +355,7 @@ public class ProgressActivity extends RelativeLayout {
 
             //Set background color if not TRANSPARENT
             if (loadingStateBackgroundColor != Color.TRANSPARENT) {
-                loadingStateRelativeLayout.setBackgroundColor(loadingStateBackgroundColor);
+                this.setBackgroundColor(loadingStateBackgroundColor);
             }
 
             layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -384,7 +390,7 @@ public class ProgressActivity extends RelativeLayout {
 
             //Set background color if not TRANSPARENT
             if (emptyStateBackgroundColor != Color.TRANSPARENT) {
-                emptyStateRelativeLayout.setBackgroundColor(emptyStateBackgroundColor);
+                this.setBackgroundColor(emptyStateBackgroundColor);
             }
 
             layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -392,7 +398,7 @@ public class ProgressActivity extends RelativeLayout {
             layoutParams.addRule(CENTER_IN_PARENT);
 
             addView(emptyStateRelativeLayout, layoutParams);
-        } else  {
+        } else {
             emptyStateRelativeLayout.setVisibility(VISIBLE);
         }
     }
@@ -421,7 +427,7 @@ public class ProgressActivity extends RelativeLayout {
 
             //Set background color if not TRANSPARENT
             if (errorStateBackgroundColor != Color.TRANSPARENT) {
-                errorStateRelativeLayout.setBackgroundColor(errorStateBackgroundColor);
+                this.setBackgroundColor(errorStateBackgroundColor);
             }
 
             layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -445,18 +451,34 @@ public class ProgressActivity extends RelativeLayout {
     private void hideLoadingView() {
         if (loadingStateRelativeLayout != null) {
             loadingStateRelativeLayout.setVisibility(GONE);
+
+            //Restore the background color if not TRANSPARENT
+            if (loadingStateBackgroundColor != Color.TRANSPARENT) {
+                this.setBackgroundDrawable(currentBackground);
+            }
         }
     }
 
     private void hideEmptyView() {
         if (emptyStateRelativeLayout != null) {
             emptyStateRelativeLayout.setVisibility(GONE);
+
+            //Restore the background color if not TRANSPARENT
+            if (emptyStateBackgroundColor != Color.TRANSPARENT) {
+                this.setBackgroundDrawable(currentBackground);;
+            }
         }
     }
 
     private void hideErrorView() {
         if (errorStateRelativeLayout != null) {
             errorStateRelativeLayout.setVisibility(GONE);
+
+            //Restore the background color if not TRANSPARENT
+            if (errorStateBackgroundColor != Color.TRANSPARENT) {
+                this.setBackgroundDrawable(currentBackground);;
+            }
+
         }
     }
 }

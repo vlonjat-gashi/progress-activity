@@ -4,14 +4,14 @@
     android:id="@+id/progress"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    progressActivity:progressLoadingStateBackgroundColor="#FFFFFF"
-    progressActivity:progressEmptyStateBackgroundColor="#fbc02d"
-    progressActivity:progressEmptyStateContentTextColor="#FFFFFF"
-    progressActivity:progressEmptyStateTitleTextColor="#FFFFFF"
-    progressActivity:progressErrorStateBackgroundColor="#42a5f5"
-    progressActivity:progressErrorStateButtonTextColor="#FFFFFF"
-    progressActivity:progressErrorStateContentTextColor="#FFFFFF"
-    progressActivity:progressErrorStateTitleTextColor="#FFFFFF">
+    progressActivity:loadingBackgroundColor="#FFFFFF"
+    progressActivity:emptyBackgroundColor="#fbc02d"
+    progressActivity:emptyContentTextColor="#FFFFFF"
+    progressActivity:emptyTitleTextColor="#FFFFFF"
+    progressActivity:errorBackgroundColor="#42a5f5"
+    progressActivity:errorButtonTextColor="#FFFFFF"
+    progressActivity:errorContentTextColor="#FFFFFF"
+    progressActivity:errorTitleTextColor="#FFFFFF">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activityToolbar"

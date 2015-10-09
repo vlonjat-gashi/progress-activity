@@ -75,15 +75,13 @@ progressActivity.showError(errorDrawable, "No Connection",
 ### Get It
 
 ````
-allprojects {
-        repositories {
-            jcenter()
-        }
-    }
+repositories {
+    maven { url "https://jitpack.io" }
+}
 
-    dependencies {
-        compile 'com.vlonjatg.android:progress-activity:1.1.1'
-    }
+dependencies {
+        compile 'com.github.vlonjatg:progress-activity:v1.0.2'
+}
 ```
 
 ### Customization

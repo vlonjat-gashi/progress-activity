@@ -29,7 +29,7 @@ Using progress-activity which extends from RelativeLayout, you can easily add st
 
 Add ```com.vlonjatg.progressactivity.ProgressActivity``` to your layout.
 
-```
+```xml
 <com.vlonjatg.progressactivity.ProgressActivity
 	android:id="@+id/progressActivity"
     android:layout_width="match_parent"
@@ -53,20 +53,20 @@ Then in your code:
 
 To display the loading view:
 
-```
+```java
 progressActivity.showLoading();
 ```
 
 To display the empty view:
 
-```
+```java
 progressActivity.showEmpty(emptyDrawable, "Empty Shopping Cart", 
 		"Please add things in the cart to continue.");
 ``` 
 
 To display the error view:
 
-```
+```java
 progressActivity.showError(errorDrawable, "No Connection",
 		"We could not establish a connection with our servers. Try again when you are connected to the interne.",
         "Try Again", errorClickListener);
@@ -74,7 +74,7 @@ progressActivity.showError(errorDrawable, "No Connection",
 
 ### Get It
 
-````
+````groovy
 repositories {
     maven { url "https://jitpack.io" }
 }
@@ -88,7 +88,7 @@ dependencies {
 
 There are a bunch of attributes to customize the views.
 
-```
+```xml
 <attr name="loadingProgressBarWidth" format="dimension"/>
 <attr name="loadingProgressBarHeight" format="dimension"/>
 <attr name="loadingBackgroundColor" format="color"/>

@@ -72,6 +72,12 @@ progressActivity.showError(errorDrawable, "No Connection",
         "Try Again", errorClickListener);
 ``` 
 
+To show the content, use:
+
+```java
+progressActivity.showContent()
+```
+
 ### Get It
 
 ````groovy

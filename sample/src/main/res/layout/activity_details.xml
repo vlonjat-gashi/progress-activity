@@ -1,17 +1,16 @@
-<com.vlonjatg.progressactivity.ProgressActivity
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.vlonjatg.progressactivity.ProgressFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
     android:id="@+id/progress"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    progressActivity:loadingBackgroundColor="#FFFFFF"
     progressActivity:emptyBackgroundColor="#fbc02d"
     progressActivity:emptyContentTextColor="#FFFFFF"
     progressActivity:emptyTitleTextColor="#FFFFFF"
     progressActivity:errorBackgroundColor="#42a5f5"
     progressActivity:errorButtonTextColor="#FFFFFF"
     progressActivity:errorContentTextColor="#FFFFFF"
-    progressActivity:errorTitleTextColor="#FFFFFF">
+    progressActivity:errorTitleTextColor="#FFFFFF"
+    progressActivity:loadingBackgroundColor="#FFFFFF">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/activityToolbar"
@@ -24,10 +23,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/activityToolbar"
+        android:layout_gravity="center"
         android:layout_marginTop="56dp"
-        android:layout_centerInParent="true"
         android:gravity="center"
         android:text="@string/hello_world" />
 
-</com.vlonjatg.progressactivity.ProgressActivity>
+</com.vlonjatg.progressactivity.ProgressFrameLayout>
 

@@ -86,7 +86,7 @@ repositories {
 }
 
 dependencies {
-        compile 'com.github.vlonjatg:progress-activity:v2.0.1'
+        compile 'com.github.vlonjatg:progress-activity:v2.0.2'
 }
 ```
 

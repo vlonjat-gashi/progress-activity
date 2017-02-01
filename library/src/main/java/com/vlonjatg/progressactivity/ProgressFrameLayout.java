@@ -172,7 +172,7 @@ public class ProgressFrameLayout extends FrameLayout {
      * Hide all other states and show content
      */
     public void showContent() {
-        switchState(CONTENT, null, null, null, null, null, Collections.<Integer>emptyList());
+        switchState(CONTENT, 0, null, null, null, null, Collections.<Integer>emptyList());
     }
 
     /**
@@ -181,14 +181,14 @@ public class ProgressFrameLayout extends FrameLayout {
      * @param skipIds Ids of views not to show
      */
     public void showContent(List<Integer> skipIds) {
-        switchState(CONTENT, null, null, null, null, null, skipIds);
+        switchState(CONTENT, 0, null, null, null, null, skipIds);
     }
 
     /**
      * Hide content and show the progress bar
      */
     public void showLoading() {
-        switchState(LOADING, null, null, null, null, null, Collections.<Integer>emptyList());
+        switchState(LOADING, 0, null, null, null, null, Collections.<Integer>emptyList());
     }
 
     /**
@@ -197,7 +197,18 @@ public class ProgressFrameLayout extends FrameLayout {
      * @param skipIds Ids of views to not hide
      */
     public void showLoading(List<Integer> skipIds) {
-        switchState(LOADING, null, null, null, null, null, skipIds);
+        switchState(LOADING, 0, null, null, null, null, skipIds);
+    }
+
+    /**
+     * Show empty view when there are not data to show
+     *
+     * @param emptyImageDrawable Drawable to show
+     * @param emptyTextTitle     Title of the empty view to show
+     * @param emptyTextContent   Content of the empty view to show
+     */
+    public void showEmpty(int emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
+        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, Collections.<Integer>emptyList());
     }
 
     /**
@@ -209,6 +220,18 @@ public class ProgressFrameLayout extends FrameLayout {
      */
     public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
         switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, Collections.<Integer>emptyList());
+    }
+
+    /**
+     * Show empty view when there are not data to show
+     *
+     * @param emptyImageDrawable Drawable to show
+     * @param emptyTextTitle     Title of the empty view to show
+     * @param emptyTextContent   Content of the empty view to show
+     * @param skipIds            Ids of views to not hide
+     */
+    public void showEmpty(int emptyImageDrawable, String emptyTextTitle, String emptyTextContent, List<Integer> skipIds) {
+        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, skipIds);
     }
 
     /**
@@ -232,8 +255,36 @@ public class ProgressFrameLayout extends FrameLayout {
      * @param errorButtonText    Text on the error view button to show
      * @param onClickListener    Listener of the error view button
      */
+    public void showError(int errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, View.OnClickListener onClickListener) {
+        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, Collections.<Integer>emptyList());
+    }
+
+    /**
+     * Show error view with a button when something goes wrong and prompting the user to try again
+     *
+     * @param errorImageDrawable Drawable to show
+     * @param errorTextTitle     Title of the error view to show
+     * @param errorTextContent   Content of the error view to show
+     * @param errorButtonText    Text on the error view button to show
+     * @param onClickListener    Listener of the error view button
+     */
     public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, View.OnClickListener onClickListener) {
         switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, Collections.<Integer>emptyList());
+    }
+
+
+    /**
+     * Show error view with a button when something goes wrong and prompting the user to try again
+     *
+     * @param errorImageDrawable Drawable to show
+     * @param errorTextTitle     Title of the error view to show
+     * @param errorTextContent   Content of the error view to show
+     * @param errorButtonText    Text on the error view button to show
+     * @param onClickListener    Listener of the error view button
+     * @param skipIds            Ids of views to not hide
+     */
+    public void showError(int errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, View.OnClickListener onClickListener, List<Integer> skipIds) {
+        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, skipIds);
     }
 
     /**
@@ -302,40 +353,57 @@ public class ProgressFrameLayout extends FrameLayout {
         switch (state) {
             case CONTENT:
                 //Hide all state views to display content
-                hideLoadingView();
-                hideEmptyView();
-                hideErrorView();
-
-                setContentVisibility(true, skipIds);
+                setContentState(skipIds);
                 break;
             case LOADING:
-                hideEmptyView();
-                hideErrorView();
-
-                setLoadingView();
-                setContentVisibility(false, skipIds);
+                setLoadingState(skipIds);
                 break;
             case EMPTY:
-                hideLoadingView();
-                hideErrorView();
+                setEmptyState(skipIds);
 
-                setEmptyView();
                 emptyStateImageView.setImageDrawable(drawable);
                 emptyStateTitleTextView.setText(errorText);
                 emptyStateContentTextView.setText(errorTextContent);
-                setContentVisibility(false, skipIds);
                 break;
             case ERROR:
-                hideLoadingView();
-                hideEmptyView();
+                setErrorState(skipIds);
 
-                setErrorView();
                 errorStateImageView.setImageDrawable(drawable);
                 errorStateTitleTextView.setText(errorText);
                 errorStateContentTextView.setText(errorTextContent);
                 errorStateButton.setText(errorButtonText);
                 errorStateButton.setOnClickListener(onClickListener);
-                setContentVisibility(false, skipIds);
+                break;
+        }
+    }
+
+    private void switchState(String state, int drawable, String errorText, String errorTextContent,
+                             String errorButtonText, View.OnClickListener onClickListener, List<Integer> skipIds) {
+        this.state = state;
+
+        switch (state) {
+            case CONTENT:
+                //Hide all state views to display content
+                setContentState(skipIds);
+                break;
+            case LOADING:
+                setLoadingState(skipIds);
+                break;
+            case EMPTY:
+                setEmptyState(skipIds);
+
+                emptyStateImageView.setImageResource(drawable);
+                emptyStateTitleTextView.setText(errorText);
+                emptyStateContentTextView.setText(errorTextContent);
+                break;
+            case ERROR:
+                setErrorState(skipIds);
+
+                errorStateImageView.setImageResource(drawable);
+                errorStateTitleTextView.setText(errorText);
+                errorStateContentTextView.setText(errorTextContent);
+                errorStateButton.setText(errorButtonText);
+                errorStateButton.setOnClickListener(onClickListener);
                 break;
         }
     }
@@ -442,6 +510,38 @@ public class ProgressFrameLayout extends FrameLayout {
     /**
      * Helpers
      */
+
+    private void setContentState(List<Integer> skipIds) {
+        hideLoadingView();
+        hideEmptyView();
+        hideErrorView();
+
+        setContentVisibility(true, skipIds);
+    }
+
+    private void setLoadingState(List<Integer> skipIds) {
+        hideEmptyView();
+        hideErrorView();
+
+        setLoadingView();
+        setContentVisibility(false, skipIds);
+    }
+
+    private void setEmptyState(List<Integer> skipIds) {
+        hideLoadingView();
+        hideErrorView();
+
+        setEmptyView();
+        setContentVisibility(false, skipIds);
+    }
+
+    private void setErrorState(List<Integer> skipIds) {
+        hideLoadingView();
+        hideEmptyView();
+
+        setErrorView();
+        setContentVisibility(false, skipIds);
+    }
 
     private void setContentVisibility(boolean visible, List<Integer> skipIds) {
         for (View v : contentViews) {

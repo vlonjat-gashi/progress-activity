@@ -10,16 +10,16 @@ import android.widget.Toast;
 
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.vlonjatg.progressactivity.ProgressFrameLayout;
+import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    Toolbar activityToolbar;
+    Toolbar toolbar;
 
-    ProgressFrameLayout progressFrameLayout;
+    ProgressRelativeLayout progressRelativeLayout;
 
     private View.OnClickListener errorClickListener = new View.OnClickListener() {
         @Override
@@ -33,8 +33,8 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        activityToolbar = (Toolbar) findViewById(R.id.activityToolbar);
-        progressFrameLayout = (ProgressFrameLayout) findViewById(R.id.progress);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        progressRelativeLayout = (ProgressRelativeLayout) findViewById(R.id.progress);
 
         setToolbar();
 
@@ -47,32 +47,36 @@ public class DetailsActivity extends AppCompatActivity {
 
         //Add which views you don't want to hide. In this case don't hide the toolbar
         List<Integer> skipIds = new ArrayList<>();
-        skipIds.add(R.id.activityToolbar);
+        skipIds.add(R.id.toolbar);
 
         String state = getIntent().getStringExtra("STATE");
         switch (state) {
             case "LOADING":
-                progressFrameLayout.showLoading(skipIds);
+                progressRelativeLayout.showLoading(skipIds);
                 setTitle("Loading");
                 break;
             case "EMPTY":
-                progressFrameLayout.showEmpty(emptyDrawable,
+                progressRelativeLayout.showEmpty(emptyDrawable,
                         "Empty Shopping Cart",
                         "Please add things in the cart to continue.", skipIds);
                 setTitle("Empty");
                 break;
             case "ERROR":
-                progressFrameLayout.showError(errorDrawable,
+                progressRelativeLayout.showError(errorDrawable,
                         "No Connection",
                         "We could not establish a connection with our servers. Please try again when you are connected to the internet.",
                         "Try Again", errorClickListener, skipIds);
                 setTitle("Error");
                 break;
+            case "CONTENT":
+                progressRelativeLayout.showContent();
+                setTitle("Content");
+                break;
         }
     }
 
     private void setToolbar() {
-        setSupportActionBar(activityToolbar);
+        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

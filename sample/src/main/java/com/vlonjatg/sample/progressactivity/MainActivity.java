@@ -5,15 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
     Toolbar activityToolbar;
-
-    Button loadingButton;
-    Button emptyButton;
-    Button errorButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +16,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         activityToolbar = (Toolbar) findViewById(R.id.activityToolbar);
-        loadingButton = (Button) findViewById(R.id.loadingButton);
-        emptyButton = (Button) findViewById(R.id.emptyButton);
-        errorButton = (Button) findViewById(R.id.errorButton);
 
         setToolbar();
-        setListeners();
     }
 
     private void setToolbar() {
@@ -37,34 +28,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setListeners() {
+    public void onLoadingStateClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra("STATE", "LOADING");
+        startActivity(intent);
+    }
 
-        loadingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("STATE", "LOADING");
-                startActivity(intent);
-            }
-        });
+    public void onEmptyStateClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra("STATE", "EMPTY");
+        startActivity(intent);
+    }
 
-        emptyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("STATE", "EMPTY");
-                startActivity(intent);
-            }
-        });
+    public void onErrorStateClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra("STATE", "ERROR");
+        startActivity(intent);
+    }
 
-        errorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-                intent.putExtra("STATE", "ERROR");
-                startActivity(intent);
-            }
-        });
-
+    public void onContentStateClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra("STATE", "CONTENT");
+        startActivity(intent);
     }
 }

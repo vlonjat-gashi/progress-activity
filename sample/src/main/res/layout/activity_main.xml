@@ -1,43 +1,50 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/activityToolbar"
+        android:id="@+id/toolbar"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
-        android:theme="@style/Toolbar"
-        android:elevation="2dp"/>
+        android:elevation="2dp"
+        android:theme="@style/Toolbar" />
 
     <Button
-        android:id="@+id/loadingButton"
+        android:id="@+id/button_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activityToolbar"
-        android:text="Loading State"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="56dp"
-        android:textColor="#FFFFFF"/>
+        android:onClick="onLoadingStateClick"
+        android:text="Loading State"
+        android:textColor="#FFFFFF" />
 
     <Button
-        android:id="@+id/emptyButton"
+        android:id="@+id/button_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loadingButton"
+        android:layout_marginTop="16dp"
+        android:onClick="onEmptyStateClick"
         android:text="Empty State"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:textColor="#FFFFFF"/>
+        android:textColor="#FFFFFF" />
 
     <Button
-        android:id="@+id/errorButton"
+        android:id="@+id/button_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/emptyButton"
-        android:text="Error State"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:textColor="#FFFFFF"/>
+        android:onClick="onErrorStateClick"
+        android:text="Error State"
+        android:textColor="#FFFFFF" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/button_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="onContentStateClick"
+        android:text="Content State"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

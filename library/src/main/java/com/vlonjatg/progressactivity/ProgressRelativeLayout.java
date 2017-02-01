@@ -19,10 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Vlonjat Gashi (vlonjatg)
- */
-public class ProgressActivity extends RelativeLayout {
+public class ProgressRelativeLayout extends RelativeLayout {
 
     private static final String TAG_LOADING = "ProgressActivity.TAG_LOADING";
     private static final String TAG_EMPTY = "ProgressActivity.TAG_EMPTY";
@@ -35,7 +32,7 @@ public class ProgressActivity extends RelativeLayout {
 
     LayoutInflater inflater;
     View view;
-    LayoutParams layoutParams;
+    RelativeLayout.LayoutParams layoutParams;
     Drawable currentBackground;
 
     List<View> contentViews = new ArrayList<>();
@@ -77,16 +74,16 @@ public class ProgressActivity extends RelativeLayout {
 
     private String state = CONTENT;
 
-    public ProgressActivity(Context context) {
+    public ProgressRelativeLayout(Context context) {
         super(context);
     }
 
-    public ProgressActivity(Context context, AttributeSet attrs) {
+    public ProgressRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public ProgressActivity(Context context, AttributeSet attrs, int defStyle) {
+    public ProgressRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs);
     }
@@ -173,7 +170,7 @@ public class ProgressActivity extends RelativeLayout {
      * Hide all other states and show content
      */
     public void showContent() {
-        switchState(CONTENT, null, null, null, null, null, Collections.<Integer>emptyList());
+        switchState(CONTENT, 0, null, null, null, null, Collections.<Integer>emptyList());
     }
 
     /**
@@ -182,14 +179,14 @@ public class ProgressActivity extends RelativeLayout {
      * @param skipIds Ids of views not to show
      */
     public void showContent(List<Integer> skipIds) {
-        switchState(CONTENT, null, null, null, null, null, skipIds);
+        switchState(CONTENT, 0, null, null, null, null, skipIds);
     }
 
     /**
      * Hide content and show the progress bar
      */
     public void showLoading() {
-        switchState(LOADING, null, null, null, null, null, Collections.<Integer>emptyList());
+        switchState(LOADING, 0, null, null, null, null, Collections.<Integer>emptyList());
     }
 
     /**
@@ -198,7 +195,18 @@ public class ProgressActivity extends RelativeLayout {
      * @param skipIds Ids of views to not hide
      */
     public void showLoading(List<Integer> skipIds) {
-        switchState(LOADING, null, null, null, null, null, skipIds);
+        switchState(LOADING, 0, null, null, null, null, skipIds);
+    }
+
+    /**
+     * Show empty view when there are not data to show
+     *
+     * @param emptyImageDrawable Drawable to show
+     * @param emptyTextTitle     Title of the empty view to show
+     * @param emptyTextContent   Content of the empty view to show
+     */
+    public void showEmpty(int emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
+        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, Collections.<Integer>emptyList());
     }
 
     /**
@@ -210,6 +218,18 @@ public class ProgressActivity extends RelativeLayout {
      */
     public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
         switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, Collections.<Integer>emptyList());
+    }
+
+    /**
+     * Show empty view when there are not data to show
+     *
+     * @param emptyImageDrawable Drawable to show
+     * @param emptyTextTitle     Title of the empty view to show
+     * @param emptyTextContent   Content of the empty view to show
+     * @param skipIds            Ids of views to not hide
+     */
+    public void showEmpty(int emptyImageDrawable, String emptyTextTitle, String emptyTextContent, List<Integer> skipIds) {
+        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, skipIds);
     }
 
     /**
@@ -233,8 +253,36 @@ public class ProgressActivity extends RelativeLayout {
      * @param errorButtonText    Text on the error view button to show
      * @param onClickListener    Listener of the error view button
      */
-    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, View.OnClickListener onClickListener) {
+    public void showError(int errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener) {
         switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, Collections.<Integer>emptyList());
+    }
+
+    /**
+     * Show error view with a button when something goes wrong and prompting the user to try again
+     *
+     * @param errorImageDrawable Drawable to show
+     * @param errorTextTitle     Title of the error view to show
+     * @param errorTextContent   Content of the error view to show
+     * @param errorButtonText    Text on the error view button to show
+     * @param onClickListener    Listener of the error view button
+     */
+    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener) {
+        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, Collections.<Integer>emptyList());
+    }
+
+
+    /**
+     * Show error view with a button when something goes wrong and prompting the user to try again
+     *
+     * @param errorImageDrawable Drawable to show
+     * @param errorTextTitle     Title of the error view to show
+     * @param errorTextContent   Content of the error view to show
+     * @param errorButtonText    Text on the error view button to show
+     * @param onClickListener    Listener of the error view button
+     * @param skipIds            Ids of views to not hide
+     */
+    public void showError(int errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
+        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, skipIds);
     }
 
     /**
@@ -247,7 +295,7 @@ public class ProgressActivity extends RelativeLayout {
      * @param onClickListener    Listener of the error view button
      * @param skipIds            Ids of views to not hide
      */
-    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, View.OnClickListener onClickListener, List<Integer> skipIds) {
+    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
         switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, skipIds);
     }
 
@@ -297,58 +345,75 @@ public class ProgressActivity extends RelativeLayout {
     }
 
     private void switchState(String state, Drawable drawable, String errorText, String errorTextContent,
-                             String errorButtonText, View.OnClickListener onClickListener, List<Integer> skipIds) {
+                             String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
         this.state = state;
 
         switch (state) {
             case CONTENT:
                 //Hide all state views to display content
-                hideLoadingView();
-                hideEmptyView();
-                hideErrorView();
-
-                setContentVisibility(true, skipIds);
+                setContentState(skipIds);
                 break;
             case LOADING:
-                hideEmptyView();
-                hideErrorView();
-
-                setLoadingView();
-                setContentVisibility(false, skipIds);
+                setLoadingState(skipIds);
                 break;
             case EMPTY:
-                hideLoadingView();
-                hideErrorView();
+                setEmptyState(skipIds);
 
-                setEmptyView();
                 emptyStateImageView.setImageDrawable(drawable);
                 emptyStateTitleTextView.setText(errorText);
                 emptyStateContentTextView.setText(errorTextContent);
-                setContentVisibility(false, skipIds);
                 break;
             case ERROR:
-                hideLoadingView();
-                hideEmptyView();
+                setErrorState(skipIds);
 
-                setErrorView();
                 errorStateImageView.setImageDrawable(drawable);
                 errorStateTitleTextView.setText(errorText);
                 errorStateContentTextView.setText(errorTextContent);
                 errorStateButton.setText(errorButtonText);
                 errorStateButton.setOnClickListener(onClickListener);
-                setContentVisibility(false, skipIds);
+                break;
+        }
+    }
+
+    private void switchState(String state, int drawable, String errorText, String errorTextContent,
+                             String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
+        this.state = state;
+
+        switch (state) {
+            case CONTENT:
+                //Hide all state views to display content
+                setContentState(skipIds);
+                break;
+            case LOADING:
+                setLoadingState(skipIds);
+                break;
+            case EMPTY:
+                setEmptyState(skipIds);
+
+                emptyStateImageView.setImageResource(drawable);
+                emptyStateTitleTextView.setText(errorText);
+                emptyStateContentTextView.setText(errorTextContent);
+                break;
+            case ERROR:
+                setErrorState(skipIds);
+
+                errorStateImageView.setImageResource(drawable);
+                errorStateTitleTextView.setText(errorText);
+                errorStateContentTextView.setText(errorTextContent);
+                errorStateButton.setText(errorButtonText);
+                errorStateButton.setOnClickListener(onClickListener);
                 break;
         }
     }
 
     private void setLoadingView() {
         if (loadingStateRelativeLayout == null) {
-            view = inflater.inflate(R.layout.progress_loading_view, null);
-            loadingStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.loadingStateRelativeLayout);
+            view = inflater.inflate(R.layout.progress_relative_layout_loading_view, null);
+            loadingStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.relative_layout_progress);
             loadingStateRelativeLayout.setTag(TAG_LOADING);
 
-            loadingStateProgressBar = (ProgressBar) view.findViewById(R.id.loadingStateProgressBar);
-
+            // Setup ProgressBar
+            loadingStateProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar_loading);
             loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
             loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
             loadingStateProgressBar.requestLayout();
@@ -358,7 +423,7 @@ public class ProgressActivity extends RelativeLayout {
                 this.setBackgroundColor(loadingStateBackgroundColor);
             }
 
-            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.addRule(CENTER_IN_PARENT);
 
@@ -370,13 +435,13 @@ public class ProgressActivity extends RelativeLayout {
 
     private void setEmptyView() {
         if (emptyStateRelativeLayout == null) {
-            view = inflater.inflate(R.layout.progress_empty_view, null);
-            emptyStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.emptyStateRelativeLayout);
+            view = inflater.inflate(R.layout.progress_relative_layout_empty_view, null);
+            emptyStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.relative_layout_empty);
             emptyStateRelativeLayout.setTag(TAG_EMPTY);
 
-            emptyStateImageView = (ImageView) view.findViewById(R.id.emptyStateImageView);
-            emptyStateTitleTextView = (TextView) view.findViewById(R.id.emptyStateTitleTextView);
-            emptyStateContentTextView = (TextView) view.findViewById(R.id.emptyStateContentTextView);
+            emptyStateImageView = (ImageView) view.findViewById(R.id.image_icon);
+            emptyStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
+            emptyStateContentTextView = (TextView) view.findViewById(R.id.text_content);
 
             //Set empty state image width and height
             emptyStateImageView.getLayoutParams().width = emptyStateImageWidth;
@@ -393,7 +458,7 @@ public class ProgressActivity extends RelativeLayout {
                 this.setBackgroundColor(emptyStateBackgroundColor);
             }
 
-            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.addRule(CENTER_IN_PARENT);
 
@@ -405,14 +470,14 @@ public class ProgressActivity extends RelativeLayout {
 
     private void setErrorView() {
         if (errorStateRelativeLayout == null) {
-            view = inflater.inflate(R.layout.progress_error_view, null);
-            errorStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.errorStateRelativeLayout);
+            view = inflater.inflate(R.layout.progress_relative_layout_error_view, null);
+            errorStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.relative_layout_error);
             errorStateRelativeLayout.setTag(TAG_ERROR);
 
-            errorStateImageView = (ImageView) view.findViewById(R.id.errorStateImageView);
-            errorStateTitleTextView = (TextView) view.findViewById(R.id.errorStateTitleTextView);
-            errorStateContentTextView = (TextView) view.findViewById(R.id.errorStateContentTextView);
-            errorStateButton = (Button) view.findViewById(R.id.errorStateButton);
+            errorStateImageView = (ImageView) view.findViewById(R.id.image_icon);
+            errorStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
+            errorStateContentTextView = (TextView) view.findViewById(R.id.text_content);
+            errorStateButton = (Button) view.findViewById(R.id.button_retry);
 
             //Set error state image width and height
             errorStateImageView.getLayoutParams().width = errorStateImageWidth;
@@ -430,7 +495,7 @@ public class ProgressActivity extends RelativeLayout {
                 this.setBackgroundColor(errorStateBackgroundColor);
             }
 
-            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.addRule(CENTER_IN_PARENT);
 
@@ -438,6 +503,42 @@ public class ProgressActivity extends RelativeLayout {
         } else {
             errorStateRelativeLayout.setVisibility(VISIBLE);
         }
+    }
+
+    /**
+     * Helpers
+     */
+
+    private void setContentState(List<Integer> skipIds) {
+        hideLoadingView();
+        hideEmptyView();
+        hideErrorView();
+
+        setContentVisibility(true, skipIds);
+    }
+
+    private void setLoadingState(List<Integer> skipIds) {
+        hideEmptyView();
+        hideErrorView();
+
+        setLoadingView();
+        setContentVisibility(false, skipIds);
+    }
+
+    private void setEmptyState(List<Integer> skipIds) {
+        hideLoadingView();
+        hideErrorView();
+
+        setEmptyView();
+        setContentVisibility(false, skipIds);
+    }
+
+    private void setErrorState(List<Integer> skipIds) {
+        hideLoadingView();
+        hideEmptyView();
+
+        setErrorView();
+        setContentVisibility(false, skipIds);
     }
 
     private void setContentVisibility(boolean visible, List<Integer> skipIds) {
@@ -465,7 +566,7 @@ public class ProgressActivity extends RelativeLayout {
 
             //Restore the background color if not TRANSPARENT
             if (emptyStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundDrawable(currentBackground);;
+                this.setBackgroundDrawable(currentBackground);
             }
         }
     }
@@ -476,9 +577,8 @@ public class ProgressActivity extends RelativeLayout {
 
             //Restore the background color if not TRANSPARENT
             if (errorStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundDrawable(currentBackground);;
+                this.setBackgroundDrawable(currentBackground);
             }
-
         }
     }
 }

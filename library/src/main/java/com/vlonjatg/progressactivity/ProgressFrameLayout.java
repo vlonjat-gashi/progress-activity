@@ -569,7 +569,6 @@ public class ProgressFrameLayout extends FrameLayout {
             //Restore the background color if not TRANSPARENT
             if (emptyStateBackgroundColor != Color.TRANSPARENT) {
                 this.setBackgroundDrawable(currentBackground);
-                ;
             }
         }
     }
@@ -581,9 +580,7 @@ public class ProgressFrameLayout extends FrameLayout {
             //Restore the background color if not TRANSPARENT
             if (errorStateBackgroundColor != Color.TRANSPARENT) {
                 this.setBackgroundDrawable(currentBackground);
-                ;
             }
-
         }
     }
 }

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/errorStateRelativeLayout"
+    android:id="@+id/relative_layout_empty"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/errorViewRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <ImageView
-            android:id="@+id/errorStateImageView"
+            android:id="@+id/image_icon"
             android:layout_width="108dp"
             android:layout_height="108dp"
             android:layout_gravity="center_horizontal"
@@ -21,7 +21,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/errorStateTitleTextView"
+            android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -30,10 +30,10 @@
             android:layout_marginTop="20dp"
             android:textSize="15sp"
             android:textStyle="bold"
-            tools:text="@string/progressActivityErrorTitlePlaceholder" />
+            tools:text="@string/progressActivityEmptyTitlePlaceholder" />
 
         <TextView
-            android:id="@+id/errorStateContentTextView"
+            android:id="@+id/text_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -43,14 +43,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:lineSpacingExtra="5.5dp"
-            tools:text="@string/progressActivityErrorContentPlaceholder" />
-
-        <Button
-            android:id="@+id/errorStateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/progressActivityErrorButton"/>
+            tools:text="@string/progressActivityEmptyContentPlaceholder" />
 
     </LinearLayout>
 

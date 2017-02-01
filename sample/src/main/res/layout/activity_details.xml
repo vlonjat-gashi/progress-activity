@@ -1,4 +1,4 @@
-<com.vlonjatg.progressactivity.ProgressFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.vlonjatg.progressactivity.ProgressRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
     android:id="@+id/progress"
     android:layout_width="match_parent"
@@ -13,20 +13,29 @@
     progressActivity:loadingBackgroundColor="#FFFFFF">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/activityToolbar"
+        android:id="@+id/toolbar"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
         android:elevation="2dp"
         android:theme="@style/Toolbar" />
 
     <TextView
+        android:id="@+id/text_hello"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/activityToolbar"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginTop="56dp"
         android:gravity="center"
         android:text="@string/hello_world" />
 
-</com.vlonjatg.progressactivity.ProgressFrameLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_hello"
+        android:layout_centerInParent="true"
+        android:text="Hi" />
+
+</com.vlonjatg.progressactivity.ProgressRelativeLayout>
 

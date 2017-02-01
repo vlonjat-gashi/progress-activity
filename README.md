@@ -30,7 +30,7 @@ Using progress-activity which extends from RelativeLayout, you can easily add st
 Add ```com.vlonjatg.progressactivity.ProgressActivity``` to your layout.
 
 ```xml
-<com.vlonjatg.progressactivity.ProgressActivity
+<com.vlonjatg.progressactivity.ProgressRelativeLayout
 	android:id="@+id/progressActivity"
     android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -46,7 +46,7 @@ Add ```com.vlonjatg.progressactivity.ProgressActivity``` to your layout.
             android:gravity="center"
             android:text="@string/hello_world" />
 
-    </com.vlonjatg.progressactivity.ProgressActivity>
+    </com.vlonjatg.progressactivity.ProgressRelativeLayout>
 ```
 
 Then in your code:
@@ -86,7 +86,7 @@ repositories {
 }
 
 dependencies {
-        compile 'com.github.vlonjatg:progress-activity:v1.0.3'
+        compile 'com.github.vlonjatg:progress-activity:v2.0.1'
 }
 ```
 
@@ -97,6 +97,7 @@ There are a bunch of attributes to customize the views.
 ```xml
 <attr name="loadingProgressBarWidth" format="dimension"/>
 <attr name="loadingProgressBarHeight" format="dimension"/>
+<attr name="loadingProgressBarColor" format="color"/>
 <attr name="loadingBackgroundColor" format="color"/>
 
 <attr name="emptyImageWidth" format="dimension"/>
@@ -114,6 +115,7 @@ There are a bunch of attributes to customize the views.
 <attr name="errorTitleTextColor" format="color"/>
 <attr name="errorContentTextColor" format="color"/>
 <attr name="errorButtonTextColor" format="color"/>
+<attr name="errorButtonBackgroundColor" format="color"/>
 <attr name="errorBackgroundColor" format="color"/>
 ```
 

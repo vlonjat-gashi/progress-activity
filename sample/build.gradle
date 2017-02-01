@@ -6,11 +6,12 @@ android {
 
     defaultConfig {
         applicationId "com.vlonjatg.sample.progressactivity"
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false

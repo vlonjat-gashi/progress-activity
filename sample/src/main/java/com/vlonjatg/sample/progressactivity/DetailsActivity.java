@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.vlonjatg.progressactivity.ProgressRelativeLayout;
+import com.vlonjatg.progressactivity.ProgressLinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    ProgressRelativeLayout progressRelativeLayout;
+    ProgressLinearLayout progressLinearLayout;
 
     private View.OnClickListener errorClickListener = new View.OnClickListener() {
         @Override
@@ -34,7 +34,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        progressRelativeLayout = (ProgressRelativeLayout) findViewById(R.id.progress);
+        progressLinearLayout = (ProgressLinearLayout) findViewById(R.id.progress);
 
         setToolbar();
 
@@ -52,24 +52,24 @@ public class DetailsActivity extends AppCompatActivity {
         String state = getIntent().getStringExtra("STATE");
         switch (state) {
             case "LOADING":
-                progressRelativeLayout.showLoading(skipIds);
+                progressLinearLayout.showLoading(skipIds);
                 setTitle("Loading");
                 break;
             case "EMPTY":
-                progressRelativeLayout.showEmpty(emptyDrawable,
+                progressLinearLayout.showEmpty(emptyDrawable,
                         "Empty Shopping Cart",
                         "Please add things in the cart to continue.", skipIds);
                 setTitle("Empty");
                 break;
             case "ERROR":
-                progressRelativeLayout.showError(errorDrawable,
+                progressLinearLayout.showError(errorDrawable,
                         "No Connection",
                         "We could not establish a connection with our servers. Please try again when you are connected to the internet.",
                         "Try Again", errorClickListener, skipIds);
                 setTitle("Error");
                 break;
             case "CONTENT":
-                progressRelativeLayout.showContent();
+                progressLinearLayout.showContent();
                 setTitle("Content");
                 break;
         }

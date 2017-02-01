@@ -3,6 +3,7 @@ package com.vlonjatg.progressactivity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -74,6 +75,7 @@ public class ProgressFrameLayout extends FrameLayout {
     int errorStateTitleTextColor;
     int errorStateContentTextColor;
     int errorStateButtonTextColor;
+    int errorStateButtonBackgroundColor;
     int errorStateBackgroundColor;
 
     private String state = CONTENT;
@@ -153,6 +155,9 @@ public class ProgressFrameLayout extends FrameLayout {
 
         errorStateButtonTextColor =
                 typedArray.getColor(R.styleable.ProgressActivity_errorButtonTextColor, Color.BLACK);
+
+        errorStateButtonBackgroundColor =
+                typedArray.getColor(R.styleable.ProgressActivity_errorButtonBackgroundColor, Color.WHITE);
 
         errorStateBackgroundColor =
                 typedArray.getColor(R.styleable.ProgressActivity_errorBackgroundColor, Color.TRANSPARENT);
@@ -498,6 +503,7 @@ public class ProgressFrameLayout extends FrameLayout {
             errorStateTitleTextView.setTextColor(errorStateTitleTextColor);
             errorStateContentTextView.setTextColor(errorStateContentTextColor);
             errorStateButton.setTextColor(errorStateButtonTextColor);
+            errorStateButton.getBackground().setColorFilter(new LightingColorFilter(1, errorStateButtonBackgroundColor));
 
             //Set background color if not TRANSPARENT
             if (errorStateBackgroundColor != Color.TRANSPARENT) {

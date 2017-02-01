@@ -22,6 +22,7 @@
         <attr name="errorTitleTextColor" format="color"/>
         <attr name="errorContentTextColor" format="color"/>
         <attr name="errorButtonTextColor" format="color"/>
+        <attr name="errorButtonBackgroundColor" format="color"/>
         <attr name="errorBackgroundColor" format="color"/>
     </declare-styleable>
 </resources>

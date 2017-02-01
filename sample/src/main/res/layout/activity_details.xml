@@ -11,6 +11,7 @@
     progressActivity:errorButtonTextColor="#FFFFFF"
     progressActivity:errorContentTextColor="#FFFFFF"
     progressActivity:errorTitleTextColor="#FFFFFF"
+    progressActivity:errorButtonBackgroundColor="#9C27B0"
     progressActivity:loadingBackgroundColor="#FFFFFF"
     progressActivity:loadingStateProgressBarColor="#9C27B0">
 

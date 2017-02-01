@@ -104,7 +104,7 @@ public class ProgressLinearLayout extends LinearLayout {
                 typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_loadingProgressBarHeight, 108);
 
         loadingStateProgressBarColor =
-                typedArray.getColor(R.styleable.ProgressActivity_loadingStateProgressBarColor, Color.RED);
+                typedArray.getColor(R.styleable.ProgressActivity_loadingProgressBarColor, Color.RED);
 
         loadingStateBackgroundColor =
                 typedArray.getColor(R.styleable.ProgressActivity_loadingBackgroundColor, Color.TRANSPARENT);

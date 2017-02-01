@@ -8,12 +8,12 @@
     progressActivity:emptyContentTextColor="#FFFFFF"
     progressActivity:emptyTitleTextColor="#FFFFFF"
     progressActivity:errorBackgroundColor="#42a5f5"
+    progressActivity:errorButtonBackgroundColor="#9C27B0"
     progressActivity:errorButtonTextColor="#FFFFFF"
     progressActivity:errorContentTextColor="#FFFFFF"
     progressActivity:errorTitleTextColor="#FFFFFF"
-    progressActivity:errorButtonBackgroundColor="#9C27B0"
     progressActivity:loadingBackgroundColor="#FFFFFF"
-    progressActivity:loadingStateProgressBarColor="#9C27B0">
+    progressActivity:loadingProgressBarColor="#9C27B0">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

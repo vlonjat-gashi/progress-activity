@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
-import com.vlonjatg.progressactivity.ProgressLinearLayout;
+import com.vlonjatg.progressactivity.ProgressFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    ProgressLinearLayout progressLinearLayout;
+    ProgressFrameLayout progressRelativeLayout;
 
     private View.OnClickListener errorClickListener = new View.OnClickListener() {
         @Override
@@ -34,7 +34,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        progressLinearLayout = (ProgressLinearLayout) findViewById(R.id.progress);
+        progressRelativeLayout = (ProgressFrameLayout) findViewById(R.id.progress);
 
         setToolbar();
 
@@ -44,7 +44,6 @@ public class DetailsActivity extends AppCompatActivity {
         Drawable errorDrawable = new IconDrawable(this, Iconify.IconValue.zmdi_wifi_off)
                 .colorRes(android.R.color.white);
 
-
         //Add which views you don't want to hide. In this case don't hide the toolbar
         List<Integer> skipIds = new ArrayList<>();
         skipIds.add(R.id.toolbar);
@@ -52,24 +51,24 @@ public class DetailsActivity extends AppCompatActivity {
         String state = getIntent().getStringExtra("STATE");
         switch (state) {
             case "LOADING":
-                progressLinearLayout.showLoading(skipIds);
+                progressRelativeLayout.showLoading(skipIds);
                 setTitle("Loading");
                 break;
             case "EMPTY":
-                progressLinearLayout.showEmpty(emptyDrawable,
+                progressRelativeLayout.showEmpty(emptyDrawable,
                         "Empty Shopping Cart",
                         "Please add things in the cart to continue.", skipIds);
                 setTitle("Empty");
                 break;
             case "ERROR":
-                progressLinearLayout.showError(errorDrawable,
+                progressRelativeLayout.showError(errorDrawable,
                         "No Connection",
                         "We could not establish a connection with our servers. Please try again when you are connected to the internet.",
                         "Try Again", errorClickListener, skipIds);
                 setTitle("Error");
                 break;
             case "CONTENT":
-                progressLinearLayout.showContent();
+                progressRelativeLayout.showContent();
                 setTitle("Content");
                 break;
         }

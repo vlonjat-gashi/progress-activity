@@ -5,6 +5,7 @@
         <attr name="loadingProgressBarWidth" format="dimension"/>
         <attr name="loadingProgressBarHeight" format="dimension"/>
         <attr name="loadingBackgroundColor" format="color"/>
+        <attr name="loadingStateProgressBarColor" format="color"/>
 
         <attr name="emptyImageWidth" format="dimension"/>
         <attr name="emptyImageHeight" format="dimension"/>

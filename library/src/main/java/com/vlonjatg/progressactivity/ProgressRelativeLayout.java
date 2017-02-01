@@ -3,6 +3,7 @@ package com.vlonjatg.progressactivity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
@@ -53,6 +54,7 @@ public class ProgressRelativeLayout extends RelativeLayout {
 
     int loadingStateProgressBarWidth;
     int loadingStateProgressBarHeight;
+    int loadingStateProgressBarColor;
     int loadingStateBackgroundColor;
 
     int emptyStateImageWidth;
@@ -99,6 +101,9 @@ public class ProgressRelativeLayout extends RelativeLayout {
 
         loadingStateProgressBarHeight =
                 typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_loadingProgressBarHeight, 108);
+
+        loadingStateProgressBarColor =
+                typedArray.getColor(R.styleable.ProgressActivity_loadingStateProgressBarColor, Color.RED);
 
         loadingStateBackgroundColor =
                 typedArray.getColor(R.styleable.ProgressActivity_loadingBackgroundColor, Color.TRANSPARENT);
@@ -416,6 +421,8 @@ public class ProgressRelativeLayout extends RelativeLayout {
             loadingStateProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar_loading);
             loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
             loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
+            loadingStateProgressBar.getIndeterminateDrawable()
+                    .setColorFilter(loadingStateProgressBarColor, PorterDuff.Mode.SRC_IN);
             loadingStateProgressBar.requestLayout();
 
             //Set background color if not TRANSPARENT

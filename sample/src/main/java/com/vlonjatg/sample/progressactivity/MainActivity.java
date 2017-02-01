@@ -8,20 +8,20 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar activityToolbar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        activityToolbar = (Toolbar) findViewById(R.id.activityToolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setToolbar();
     }
 
     private void setToolbar() {
-        setSupportActionBar(activityToolbar);
+        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             setTitle("Progress Activity");

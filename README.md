@@ -6,7 +6,7 @@ If you are tired of constantly having to set up progress bars, empty views and e
 
 ### About
 
-Using progress-activity which extends from RelativeLayout, you can easily add states like
+Using progress-activity you can easily add states like:
 
 - progress bar while the content is loading,
 - empty view to indicate when there are no data to display,

@@ -27,7 +27,7 @@ Using progress-activity you can easily add states like:
 
 ### Usage
 
-Add ```com.vlonjatg.progressactivity.ProgressActivity``` to your layout.
+Add ```com.vlonjatg.progressactivity.ProgressFrameLayout``` or ```com.vlonjatg.progressactivity.ProgressLinearLayout``` or ```com.vlonjatg.progressactivity.ProgressRelativeLayout``` to your layout depending on your usecase:
 
 ```xml
 <com.vlonjatg.progressactivity.ProgressRelativeLayout

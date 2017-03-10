@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -167,7 +166,7 @@ public class ProgressLinearLayout extends LinearLayout {
     }
 
     @Override
-    public void addView(@NonNull View child, int index, ViewGroup.LayoutParams params) {
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
         super.addView(child, index, params);
 
         if (child.getTag() == null || (!child.getTag().equals(TAG_LOADING) &&

@@ -6,7 +6,7 @@ If you are tired of constantly having to set up progress bars, empty views and e
 
 ### About
 
-Using progress-activity which extends from RelativeLayout, you can easily add states like
+Using progress-activity you can easily add states like:
 
 - progress bar while the content is loading,
 - empty view to indicate when there are no data to display,
@@ -27,7 +27,7 @@ Using progress-activity which extends from RelativeLayout, you can easily add st
 
 ### Usage
 
-Add ```com.vlonjatg.progressactivity.ProgressActivity``` to your layout.
+Add ```com.vlonjatg.progressactivity.ProgressFrameLayout``` or ```com.vlonjatg.progressactivity.ProgressLinearLayout``` or ```com.vlonjatg.progressactivity.ProgressRelativeLayout``` to your layout depending on your usecase:
 
 ```xml
 <com.vlonjatg.progressactivity.ProgressRelativeLayout
@@ -86,7 +86,7 @@ repositories {
 }
 
 dependencies {
-        compile 'com.github.vlonjatg:progress-activity:v2.0.1'
+        compile 'com.github.vlonjatg:progress-activity:v2.0.2'
 }
 ```
 

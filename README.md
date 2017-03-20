@@ -80,7 +80,7 @@ progressActivity.showContent()
 
 ### Get It
 
-````groovy
+```
 repositories {
     maven { url "https://jitpack.io" }
 }
@@ -88,6 +88,7 @@ repositories {
 dependencies {
         compile 'com.github.vlonjatg:progress-activity:v2.0.3'
 }
+
 ```
 
 ### Customization

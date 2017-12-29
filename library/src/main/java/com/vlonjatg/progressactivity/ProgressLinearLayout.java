@@ -419,11 +419,11 @@ public class ProgressLinearLayout extends LinearLayout {
     private void setLoadingView() {
         if (loadingStateLinearLayout == null) {
             view = inflater.inflate(R.layout.progress_linear_layout_loading_view, null);
-            loadingStateLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_progress);
+            loadingStateLinearLayout = view.findViewById(R.id.linear_layout_loading);
             loadingStateLinearLayout.setTag(TAG_LOADING);
 
             // Setup ProgressBar
-            loadingStateProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar_loading);
+            loadingStateProgressBar = view.findViewById(R.id.progress_bar_loading);
             loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
             loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
             loadingStateProgressBar.getIndeterminateDrawable()
@@ -448,12 +448,12 @@ public class ProgressLinearLayout extends LinearLayout {
     private void setEmptyView() {
         if (emptyStateLinearLayout == null) {
             view = inflater.inflate(R.layout.progress_linear_layout_empty_view, null);
-            emptyStateLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_empty);
+            emptyStateLinearLayout = view.findViewById(R.id.linear_layout_empty);
             emptyStateLinearLayout.setTag(TAG_EMPTY);
 
-            emptyStateImageView = (ImageView) view.findViewById(R.id.image_icon);
-            emptyStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
-            emptyStateContentTextView = (TextView) view.findViewById(R.id.text_content);
+            emptyStateImageView = view.findViewById(R.id.image_icon);
+            emptyStateTitleTextView = view.findViewById(R.id.text_title);
+            emptyStateContentTextView = view.findViewById(R.id.text_content);
 
             //Set empty state image width and height
             emptyStateImageView.getLayoutParams().width = emptyStateImageWidth;
@@ -483,13 +483,13 @@ public class ProgressLinearLayout extends LinearLayout {
     private void setErrorView() {
         if (errorStateLinearLayout == null) {
             view = inflater.inflate(R.layout.progress_linear_layout_error_view, null);
-            errorStateLinearLayout = (LinearLayout) view.findViewById(R.id.linear_layout_error);
+            errorStateLinearLayout = view.findViewById(R.id.linear_layout_error);
             errorStateLinearLayout.setTag(TAG_ERROR);
 
-            errorStateImageView = (ImageView) view.findViewById(R.id.image_icon);
-            errorStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
-            errorStateContentTextView = (TextView) view.findViewById(R.id.text_content);
-            errorStateButton = (Button) view.findViewById(R.id.button_retry);
+            errorStateImageView = view.findViewById(R.id.image_icon);
+            errorStateTitleTextView = view.findViewById(R.id.text_title);
+            errorStateContentTextView = view.findViewById(R.id.text_content);
+            errorStateButton = view.findViewById(R.id.button_retry);
 
             //Set error state image width and height
             errorStateImageView.getLayoutParams().width = errorStateImageWidth;

@@ -420,11 +420,11 @@ public class ProgressFrameLayout extends FrameLayout {
     private void setLoadingView() {
         if (loadingStateFrameLayout == null) {
             view = inflater.inflate(R.layout.progress_frame_layout_loading_view, null);
-            loadingStateFrameLayout = (FrameLayout) view.findViewById(R.id.frame_layout_progress);
+            loadingStateFrameLayout = view.findViewById(R.id.frame_layout_loading);
             loadingStateFrameLayout.setTag(TAG_LOADING);
 
             // Setup ProgressBar
-            loadingStateProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar_loading);
+            loadingStateProgressBar = view.findViewById(R.id.progress_bar_loading);
             loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
             loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
             loadingStateProgressBar.getIndeterminateDrawable()
@@ -449,12 +449,12 @@ public class ProgressFrameLayout extends FrameLayout {
     private void setEmptyView() {
         if (emptyStateFrameLayout == null) {
             view = inflater.inflate(R.layout.progress_frame_layout_empty_view, null);
-            emptyStateFrameLayout = (FrameLayout) view.findViewById(R.id.frame_layout_empty);
+            emptyStateFrameLayout = view.findViewById(R.id.frame_layout_empty);
             emptyStateFrameLayout.setTag(TAG_EMPTY);
 
-            emptyStateImageView = (ImageView) view.findViewById(R.id.image_icon);
-            emptyStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
-            emptyStateContentTextView = (TextView) view.findViewById(R.id.text_content);
+            emptyStateImageView = view.findViewById(R.id.image_icon);
+            emptyStateTitleTextView = view.findViewById(R.id.text_title);
+            emptyStateContentTextView = view.findViewById(R.id.text_content);
 
             //Set empty state image width and height
             emptyStateImageView.getLayoutParams().width = emptyStateImageWidth;
@@ -484,13 +484,13 @@ public class ProgressFrameLayout extends FrameLayout {
     private void setErrorView() {
         if (errorStateFrameLayout == null) {
             view = inflater.inflate(R.layout.progress_frame_layout_error_view, null);
-            errorStateFrameLayout = (FrameLayout) view.findViewById(R.id.frame_layout_error);
+            errorStateFrameLayout = view.findViewById(R.id.frame_layout_error);
             errorStateFrameLayout.setTag(TAG_ERROR);
 
-            errorStateImageView = (ImageView) view.findViewById(R.id.image_icon);
-            errorStateTitleTextView = (TextView) view.findViewById(R.id.text_title);
-            errorStateContentTextView = (TextView) view.findViewById(R.id.text_content);
-            errorStateButton = (Button) view.findViewById(R.id.button_retry);
+            errorStateImageView = view.findViewById(R.id.image_icon);
+            errorStateTitleTextView = view.findViewById(R.id.text_title);
+            errorStateContentTextView = view.findViewById(R.id.text_content);
+            errorStateButton = view.findViewById(R.id.button_retry);
 
             //Set error state image width and height
             errorStateImageView.getLayoutParams().width = errorStateImageWidth;

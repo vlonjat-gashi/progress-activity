@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
+import com.vlonjatg.progressactivity.ProgressConstraintLayout;
 import com.vlonjatg.progressactivity.ProgressFrameLayout;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    ProgressFrameLayout progressRelativeLayout;
+    ProgressConstraintLayout progressRelativeLayout;
 
     private View.OnClickListener errorClickListener = new View.OnClickListener() {
         @Override
@@ -33,8 +34,8 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        progressRelativeLayout = (ProgressFrameLayout) findViewById(R.id.progress);
+        toolbar = findViewById(R.id.toolbar);
+        progressRelativeLayout = findViewById(R.id.progress);
 
         setToolbar();
 

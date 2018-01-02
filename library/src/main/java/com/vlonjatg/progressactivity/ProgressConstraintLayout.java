@@ -7,12 +7,12 @@ import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,62 +21,55 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static android.widget.RelativeLayout.CENTER_IN_PARENT;
+public class ProgressConstraintLayout extends ConstraintLayout implements ProgressLayout {
 
-public class ProgressConstraintLayout extends FrameLayout {
+    private final String CONTENT = "type_content";
+    private final String LOADING = "type_loading";
+    private final String EMPTY = "type_empty";
+    private final String ERROR = "type_error";
 
-    private static final String TAG_LOADING = "ProgressActivity.TAG_LOADING";
-    private static final String TAG_EMPTY = "ProgressActivity.TAG_EMPTY";
-    private static final String TAG_ERROR = "ProgressActivity.TAG_ERROR";
+    private LayoutInflater inflater;
+    private View view;
+    private Drawable defaultBackground;
 
-    final String CONTENT = "type_content";
-    final String LOADING = "type_loading";
-    final String EMPTY = "type_empty";
-    final String ERROR = "type_error";
+    private List<View> contentViews = new ArrayList<>();
 
-    LayoutInflater inflater;
-    View view;
-    LayoutParams layoutParams;
-    Drawable defaultBackground;
+    private View loadingState;
+    private ProgressBar loadingStateProgressBar;
 
-    List<View> contentViews = new ArrayList<>();
+    private View emptyState;
+    private ImageView emptyStateImageView;
+    private TextView emptyStateTitleTextView;
+    private TextView emptyStateContentTextView;
 
-    ConstraintLayout loadingStateConstraintLayout;
-    ProgressBar loadingStateProgressBar;
+    private View errorState;
+    private ImageView errorStateImageView;
+    private TextView errorStateTitleTextView;
+    private TextView errorStateContentTextView;
+    private Button errorStateButton;
 
-    ConstraintLayout emptyStateConstraintLayout;
-    ImageView emptyStateImageView;
-    TextView emptyStateTitleTextView;
-    TextView emptyStateContentTextView;
+    private int loadingStateProgressBarWidth;
+    private int loadingStateProgressBarHeight;
+    private int loadingStateProgressBarColor;
+    private int loadingStateBackgroundColor;
 
-    ConstraintLayout errorStateConstraintLayout;
-    ImageView errorStateImageView;
-    TextView errorStateTitleTextView;
-    TextView errorStateContentTextView;
-    Button errorStateButton;
+    private int emptyStateImageWidth;
+    private int emptyStateImageHeight;
+    private int emptyStateTitleTextSize;
+    private int emptyStateTitleTextColor;
+    private int emptyStateContentTextSize;
+    private int emptyStateContentTextColor;
+    private int emptyStateBackgroundColor;
 
-    int loadingStateProgressBarWidth;
-    int loadingStateProgressBarHeight;
-    int loadingStateProgressBarColor;
-    int loadingStateBackgroundColor;
-
-    int emptyStateImageWidth;
-    int emptyStateImageHeight;
-    int emptyStateTitleTextSize;
-    int emptyStateContentTextSize;
-    int emptyStateTitleTextColor;
-    int emptyStateContentTextColor;
-    int emptyStateBackgroundColor;
-
-    int errorStateImageWidth;
-    int errorStateImageHeight;
-    int errorStateTitleTextSize;
-    int errorStateContentTextSize;
-    int errorStateTitleTextColor;
-    int errorStateContentTextColor;
-    int errorStateButtonTextColor;
-    int errorStateButtonBackgroundColor;
-    int errorStateBackgroundColor;
+    private int errorStateImageWidth;
+    private int errorStateImageHeight;
+    private int errorStateTitleTextSize;
+    private int errorStateTitleTextColor;
+    private int errorStateContentTextSize;
+    private int errorStateContentTextColor;
+    private int errorStateButtonTextColor;
+    private int errorStateButtonBackgroundColor;
+    private int errorStateBackgroundColor;
 
     private String state = CONTENT;
 
@@ -122,11 +115,11 @@ public class ProgressConstraintLayout extends FrameLayout {
         emptyStateTitleTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyTitleTextSize, 15);
 
-        emptyStateContentTextSize =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyContentTextSize, 14);
-
         emptyStateTitleTextColor =
                 typedArray.getColor(R.styleable.ProgressActivity_emptyTitleTextColor, Color.BLACK);
+
+        emptyStateContentTextSize =
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyContentTextSize, 14);
 
         emptyStateContentTextColor =
                 typedArray.getColor(R.styleable.ProgressActivity_emptyContentTextColor, Color.BLACK);
@@ -144,11 +137,11 @@ public class ProgressConstraintLayout extends FrameLayout {
         errorStateTitleTextSize =
                 typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_errorTitleTextSize, 15);
 
-        errorStateContentTextSize =
-                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_errorContentTextSize, 14);
-
         errorStateTitleTextColor =
                 typedArray.getColor(R.styleable.ProgressActivity_errorTitleTextColor, Color.BLACK);
+
+        errorStateContentTextSize =
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_errorContentTextSize, 14);
 
         errorStateContentTextColor =
                 typedArray.getColor(R.styleable.ProgressActivity_errorContentTextColor, Color.BLACK);
@@ -168,262 +161,131 @@ public class ProgressConstraintLayout extends FrameLayout {
     }
 
     @Override
-    public void addView(View child, int index, ViewGroup.LayoutParams params) {
-        super.addView(child, index, params);
-
-        if (child.getTag() == null || (!child.getTag().equals(TAG_LOADING) &&
-                !child.getTag().equals(TAG_EMPTY) && !child.getTag().equals(TAG_ERROR))) {
-
-            contentViews.add(child);
-        }
-    }
-
-    /**
-     * Hide all other states and show content
-     */
     public void showContent() {
         switchState(CONTENT, 0, null, null, null, null, Collections.<Integer>emptyList());
     }
 
-    /**
-     * Hide all other states and show content
-     *
-     * @param skipIds Ids of views not to show
-     */
-    public void showContent(List<Integer> skipIds) {
-        switchState(CONTENT, 0, null, null, null, null, skipIds);
+    @Override
+    public void showContent(List<Integer> idsOfViewsNotToShow) {
+        switchState(CONTENT, 0, null, null, null, null, idsOfViewsNotToShow);
     }
 
-    /**
-     * Hide content and show the progress bar
-     */
+    @Override
     public void showLoading() {
         switchState(LOADING, 0, null, null, null, null, Collections.<Integer>emptyList());
     }
 
-    /**
-     * Hide content and show the progress bar
-     *
-     * @param skipIds Ids of views to not hide
-     */
-    public void showLoading(List<Integer> skipIds) {
-        switchState(LOADING, 0, null, null, null, null, skipIds);
+    @Override
+    public void showLoading(List<Integer> idsOfViewsNotToHide) {
+        switchState(LOADING, 0, null, null, null, null, idsOfViewsNotToHide);
     }
 
-    /**
-     * Show empty view when there are not data to show
-     *
-     * @param emptyImageDrawable Drawable to show
-     * @param emptyTextTitle     Title of the empty view to show
-     * @param emptyTextContent   Content of the empty view to show
-     */
-    public void showEmpty(int emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
-        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, Collections.<Integer>emptyList());
+    @Override
+    public void showEmpty(int icon, String title, String description) {
+        switchState(EMPTY, icon, title, description, null, null, Collections.<Integer>emptyList());
     }
 
-    /**
-     * Show empty view when there are not data to show
-     *
-     * @param emptyImageDrawable Drawable to show
-     * @param emptyTextTitle     Title of the empty view to show
-     * @param emptyTextContent   Content of the empty view to show
-     */
-    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
-        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, Collections.<Integer>emptyList());
+    @Override
+    public void showEmpty(Drawable icon, String title, String description) {
+        switchState(EMPTY, icon, title, description, null, null, Collections.<Integer>emptyList());
     }
 
-    /**
-     * Show empty view when there are not data to show
-     *
-     * @param emptyImageDrawable Drawable to show
-     * @param emptyTextTitle     Title of the empty view to show
-     * @param emptyTextContent   Content of the empty view to show
-     * @param skipIds            Ids of views to not hide
-     */
-    public void showEmpty(int emptyImageDrawable, String emptyTextTitle, String emptyTextContent, List<Integer> skipIds) {
-        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, skipIds);
+    @Override
+    public void showEmpty(int icon, String title, String description, List<Integer> idsOfViewsNotToHide) {
+        switchState(EMPTY, icon, title, description, null, null, idsOfViewsNotToHide);
     }
 
-    /**
-     * Show empty view when there are not data to show
-     *
-     * @param emptyImageDrawable Drawable to show
-     * @param emptyTextTitle     Title of the empty view to show
-     * @param emptyTextContent   Content of the empty view to show
-     * @param skipIds            Ids of views to not hide
-     */
-    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent, List<Integer> skipIds) {
-        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, null, null, skipIds);
+    @Override
+    public void showEmpty(Drawable icon, String title, String description, List<Integer> idsOfViewsNotToHide) {
+        switchState(EMPTY, icon, title, description, null, null, idsOfViewsNotToHide);
     }
 
-    /**
-     * Show error view with a button when something goes wrong and prompting the user to try again
-     *
-     * @param errorImageDrawable Drawable to show
-     * @param errorTextTitle     Title of the error view to show
-     * @param errorTextContent   Content of the error view to show
-     * @param errorButtonText    Text on the error view button to show
-     * @param onClickListener    Listener of the error view button
-     */
-    public void showError(int errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener) {
-        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, Collections.<Integer>emptyList());
+    @Override
+    public void showError(int icon, String title, String description, String buttonText, View.OnClickListener buttonClickListener) {
+        switchState(ERROR, icon, title, description, buttonText, buttonClickListener, Collections.<Integer>emptyList());
     }
 
-    /**
-     * Show error view with a button when something goes wrong and prompting the user to try again
-     *
-     * @param errorImageDrawable Drawable to show
-     * @param errorTextTitle     Title of the error view to show
-     * @param errorTextContent   Content of the error view to show
-     * @param errorButtonText    Text on the error view button to show
-     * @param onClickListener    Listener of the error view button
-     */
-    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener) {
-        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, Collections.<Integer>emptyList());
+    @Override
+    public void showError(Drawable icon, String title, String description, String buttonText, View.OnClickListener buttonClickListener) {
+        switchState(ERROR, icon, title, description, buttonText, buttonClickListener, Collections.<Integer>emptyList());
     }
 
-
-    /**
-     * Show error view with a button when something goes wrong and prompting the user to try again
-     *
-     * @param errorImageDrawable Drawable to show
-     * @param errorTextTitle     Title of the error view to show
-     * @param errorTextContent   Content of the error view to show
-     * @param errorButtonText    Text on the error view button to show
-     * @param onClickListener    Listener of the error view button
-     * @param skipIds            Ids of views to not hide
-     */
-    public void showError(int errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
-        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, skipIds);
+    @Override
+    public void showError(int icon, String title, String description, String buttonText, View.OnClickListener buttonClickListener, List<Integer> idsOfViewsNotToHide) {
+        switchState(ERROR, icon, title, description, buttonText, buttonClickListener, idsOfViewsNotToHide);
     }
 
-    /**
-     * Show error view with a button when something goes wrong and prompting the user to try again
-     *
-     * @param errorImageDrawable Drawable to show
-     * @param errorTextTitle     Title of the error view to show
-     * @param errorTextContent   Content of the error view to show
-     * @param errorButtonText    Text on the error view button to show
-     * @param onClickListener    Listener of the error view button
-     * @param skipIds            Ids of views to not hide
-     */
-    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
-        switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, skipIds);
+    @Override
+    public void showError(Drawable icon, String title, String description, String buttonText, View.OnClickListener buttonClickListener, List<Integer> idsOfViewsNotToHide) {
+        switchState(ERROR, icon, title, description, buttonText, buttonClickListener, idsOfViewsNotToHide);
     }
 
-    /**
-     * Get which state is set
-     *
-     * @return State
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * Check if content is shown
-     *
-     * @return boolean
-     */
-    public boolean isContent() {
-        return state.equals(CONTENT);
-    }
-
-    /**
-     * Check if loading state is shown
-     *
-     * @return boolean
-     */
-    public boolean isLoading() {
-        return state.equals(LOADING);
-    }
-
-    /**
-     * Check if empty state is shown
-     *
-     * @return boolean
-     */
-    public boolean isEmpty() {
-        return state.equals(EMPTY);
-    }
-
-    /**
-     * Check if error state is shown
-     *
-     * @return boolean
-     */
-    public boolean isError() {
-        return state.equals(ERROR);
-    }
-
-    private void switchState(String state, Drawable drawable, String errorText, String errorTextContent,
-                             String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
+    private void switchState(String state, int icon, String title, String description,
+                             String buttonText, OnClickListener buttonClickListener, List<Integer> idsOfViewsNotToHide) {
         this.state = state;
 
         hideAllStates();
 
         switch (state) {
             case CONTENT:
-                //Hide all state views to display content
-                setContentVisibility(true, skipIds);
+                setContentVisibility(true, idsOfViewsNotToHide);
                 break;
             case LOADING:
-                setLoadingView();
-                setContentVisibility(false, skipIds);
+                setContentVisibility(false, idsOfViewsNotToHide);
+                inflateLoadingView();
                 break;
             case EMPTY:
-                setEmptyView();
-                setContentVisibility(false, skipIds);
+                setContentVisibility(false, idsOfViewsNotToHide);
+                inflateEmptyView();
 
-                emptyStateImageView.setImageDrawable(drawable);
-                emptyStateTitleTextView.setText(errorText);
-                emptyStateContentTextView.setText(errorTextContent);
+                emptyStateImageView.setImageResource(icon);
+                emptyStateTitleTextView.setText(title);
+                emptyStateContentTextView.setText(description);
                 break;
             case ERROR:
-                setErrorView();
-                setContentVisibility(false, skipIds);
+                setContentVisibility(false, idsOfViewsNotToHide);
+                inflateErrorView();
 
-                errorStateImageView.setImageDrawable(drawable);
-                errorStateTitleTextView.setText(errorText);
-                errorStateContentTextView.setText(errorTextContent);
-                errorStateButton.setText(errorButtonText);
-                errorStateButton.setOnClickListener(onClickListener);
+                errorStateImageView.setImageResource(icon);
+                errorStateTitleTextView.setText(title);
+                errorStateContentTextView.setText(description);
+                errorStateButton.setText(buttonText);
+                errorStateButton.setOnClickListener(buttonClickListener);
                 break;
         }
     }
 
-    private void switchState(String state, int drawable, String errorText, String errorTextContent,
-                             String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
+    private void switchState(String state, Drawable icon, String title, String description,
+                             String buttonText, OnClickListener buttonClickListener, List<Integer> idsOfViewsNotToHide) {
         this.state = state;
 
         hideAllStates();
 
         switch (state) {
             case CONTENT:
-                //Hide all state views to display content
-                setContentVisibility(true, skipIds);
+                setContentVisibility(true, idsOfViewsNotToHide);
                 break;
             case LOADING:
-                setLoadingView();
-                setContentVisibility(false, skipIds);
+                setContentVisibility(false, idsOfViewsNotToHide);
+                inflateLoadingView();
                 break;
             case EMPTY:
-                setEmptyView();
-                setContentVisibility(false, skipIds);
+                setContentVisibility(false, idsOfViewsNotToHide);
+                inflateEmptyView();
 
-                emptyStateImageView.setImageResource(drawable);
-                emptyStateTitleTextView.setText(errorText);
-                emptyStateContentTextView.setText(errorTextContent);
+                emptyStateImageView.setImageDrawable(icon);
+                emptyStateTitleTextView.setText(title);
+                emptyStateContentTextView.setText(description);
                 break;
             case ERROR:
-                setErrorView();
-                setContentVisibility(false, skipIds);
+                setContentVisibility(false, idsOfViewsNotToHide);
+                inflateErrorView();
 
-                errorStateImageView.setImageResource(drawable);
-                errorStateTitleTextView.setText(errorText);
-                errorStateContentTextView.setText(errorTextContent);
-                errorStateButton.setText(errorButtonText);
-                errorStateButton.setOnClickListener(onClickListener);
+                errorStateImageView.setImageDrawable(icon);
+                errorStateTitleTextView.setText(title);
+                errorStateContentTextView.setText(description);
+                errorStateButton.setText(buttonText);
+                errorStateButton.setOnClickListener(buttonClickListener);
                 break;
         }
     }
@@ -432,113 +294,30 @@ public class ProgressConstraintLayout extends FrameLayout {
         hideLoadingView();
         hideEmptyView();
         hideErrorView();
+        restoreDefaultBackground();
     }
 
-    private void setLoadingView() {
-        if (loadingStateConstraintLayout == null) {
-            view = inflater.inflate(R.layout.progress_frame_layout_loading_view, null);
-            loadingStateConstraintLayout = view.findViewById(R.id.constraint_layout_loading);
-            loadingStateConstraintLayout.setTag(TAG_LOADING);
-
-            // Setup ProgressBar
-            loadingStateProgressBar = view.findViewById(R.id.progress_bar_loading);
-            loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
-            loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
-            loadingStateProgressBar.getIndeterminateDrawable()
-                    .setColorFilter(loadingStateProgressBarColor, PorterDuff.Mode.SRC_IN);
-            loadingStateProgressBar.requestLayout();
-
-            //Set background color if not TRANSPARENT
-            if (loadingStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundColor(loadingStateBackgroundColor);
-            }
-
-            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.gravity = CENTER_IN_PARENT;
-
-            addView(loadingStateConstraintLayout, layoutParams);
-        } else {
-            loadingStateConstraintLayout.setVisibility(VISIBLE);
+    private void hideLoadingView() {
+        if (loadingState != null) {
+            loadingState.setVisibility(GONE);
         }
     }
 
-    private void setEmptyView() {
-        if (emptyStateConstraintLayout == null) {
-            view = inflater.inflate(R.layout.progress_frame_layout_empty_view, null);
-            emptyStateConstraintLayout = view.findViewById(R.id.constraint_layout_empty);
-            emptyStateConstraintLayout.setTag(TAG_EMPTY);
-
-            emptyStateImageView = view.findViewById(R.id.image_icon);
-            emptyStateTitleTextView = view.findViewById(R.id.text_title);
-            emptyStateContentTextView = view.findViewById(R.id.text_content);
-
-            //Set empty state image width and height
-            emptyStateImageView.getLayoutParams().width = emptyStateImageWidth;
-            emptyStateImageView.getLayoutParams().height = emptyStateImageHeight;
-            emptyStateImageView.requestLayout();
-
-            emptyStateTitleTextView.setTextSize(emptyStateTitleTextSize);
-            emptyStateContentTextView.setTextSize(emptyStateContentTextSize);
-            emptyStateTitleTextView.setTextColor(emptyStateTitleTextColor);
-            emptyStateContentTextView.setTextColor(emptyStateContentTextColor);
-
-            //Set background color if not TRANSPARENT
-            if (emptyStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundColor(emptyStateBackgroundColor);
-            }
-
-            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.gravity = CENTER_IN_PARENT;
-
-            addView(emptyStateConstraintLayout, layoutParams);
-        } else {
-            emptyStateConstraintLayout.setVisibility(VISIBLE);
+    private void hideEmptyView() {
+        if (emptyState != null) {
+            emptyState.setVisibility(GONE);
         }
     }
 
-    private void setErrorView() {
-        if (errorStateConstraintLayout == null) {
-            view = inflater.inflate(R.layout.progress_frame_layout_error_view, null);
-            errorStateConstraintLayout = view.findViewById(R.id.constraint_layout_error);
-            errorStateConstraintLayout.setTag(TAG_ERROR);
-
-            errorStateImageView = view.findViewById(R.id.image_icon);
-            errorStateTitleTextView = view.findViewById(R.id.text_title);
-            errorStateContentTextView = view.findViewById(R.id.text_content);
-            errorStateButton = view.findViewById(R.id.button_retry);
-
-            //Set error state image width and height
-            errorStateImageView.getLayoutParams().width = errorStateImageWidth;
-            errorStateImageView.getLayoutParams().height = errorStateImageHeight;
-            errorStateImageView.requestLayout();
-
-            errorStateTitleTextView.setTextSize(errorStateTitleTextSize);
-            errorStateContentTextView.setTextSize(errorStateContentTextSize);
-            errorStateTitleTextView.setTextColor(errorStateTitleTextColor);
-            errorStateContentTextView.setTextColor(errorStateContentTextColor);
-            errorStateButton.setTextColor(errorStateButtonTextColor);
-            errorStateButton.getBackground().setColorFilter(new LightingColorFilter(1, errorStateButtonBackgroundColor));
-
-            //Set background color if not TRANSPARENT
-            if (errorStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundColor(errorStateBackgroundColor);
-            }
-
-            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.gravity = CENTER_IN_PARENT;
-
-            addView(errorStateConstraintLayout, layoutParams);
-        } else {
-            errorStateConstraintLayout.setVisibility(VISIBLE);
+    private void hideErrorView() {
+        if (errorState != null) {
+            errorState.setVisibility(GONE);
         }
     }
 
-    /**
-     * Helpers
-     */
+    private void restoreDefaultBackground() {
+        this.setBackgroundDrawable(defaultBackground);
+    }
 
     private void setContentVisibility(boolean visible, List<Integer> skipIds) {
         for (View v : contentViews) {
@@ -548,28 +327,147 @@ public class ProgressConstraintLayout extends FrameLayout {
         }
     }
 
-    private void hideLoadingView() {
-        if (loadingStateConstraintLayout != null) {
-            loadingStateConstraintLayout.setVisibility(GONE);
-            restoreDefaultBackground();
+    private void inflateLoadingView() {
+        if (loadingState == null) {
+            view = inflater.inflate(R.layout.view_loading, null);
+            loadingState = view.findViewById(R.id.layout_loading);
+            loadingState.setTag(LOADING);
+
+            loadingStateProgressBar = view.findViewById(R.id.progress_bar_loading);
+            loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
+            loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
+            loadingStateProgressBar.getIndeterminateDrawable()
+                    .setColorFilter(loadingStateProgressBarColor, PorterDuff.Mode.SRC_IN);
+            loadingStateProgressBar.requestLayout();
+
+            if (loadingStateBackgroundColor != Color.TRANSPARENT) {
+                this.setBackgroundColor(loadingStateBackgroundColor);
+            }
+
+            LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.topToTop = ConstraintSet.PARENT_ID;
+            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
+            layoutParams.startToStart = ConstraintSet.PARENT_ID;
+            layoutParams.endToEnd = ConstraintSet.PARENT_ID;
+
+            addView(loadingState, layoutParams);
+        } else {
+            loadingState.setVisibility(VISIBLE);
         }
     }
 
-    private void hideEmptyView() {
-        if (emptyStateConstraintLayout != null) {
-            emptyStateConstraintLayout.setVisibility(GONE);
-            restoreDefaultBackground();
+    private void inflateEmptyView() {
+        if (emptyState == null) {
+            view = inflater.inflate(R.layout.view_empty, null);
+            emptyState = view.findViewById(R.id.layout_empty);
+            emptyState.setTag(EMPTY);
+
+            emptyStateImageView = view.findViewById(R.id.image_icon);
+            emptyStateTitleTextView = view.findViewById(R.id.text_title);
+            emptyStateContentTextView = view.findViewById(R.id.text_description);
+
+            emptyStateImageView.getLayoutParams().width = emptyStateImageWidth;
+            emptyStateImageView.getLayoutParams().height = emptyStateImageHeight;
+            emptyStateImageView.requestLayout();
+
+            emptyStateTitleTextView.setTextSize(emptyStateTitleTextSize);
+            emptyStateTitleTextView.setTextColor(emptyStateTitleTextColor);
+
+            emptyStateContentTextView.setTextSize(emptyStateContentTextSize);
+            emptyStateContentTextView.setTextColor(emptyStateContentTextColor);
+
+            if (emptyStateBackgroundColor != Color.TRANSPARENT) {
+                this.setBackgroundColor(emptyStateBackgroundColor);
+            }
+
+            LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.topToTop = ConstraintSet.PARENT_ID;
+            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
+            layoutParams.startToStart = ConstraintSet.PARENT_ID;
+            layoutParams.endToEnd = ConstraintSet.PARENT_ID;
+
+            addView(emptyState, layoutParams);
+        } else {
+            emptyState.setVisibility(VISIBLE);
         }
     }
 
-    private void hideErrorView() {
-        if (errorStateConstraintLayout != null) {
-            errorStateConstraintLayout.setVisibility(GONE);
-            restoreDefaultBackground();
+    private void inflateErrorView() {
+        if (errorState == null) {
+            view = inflater.inflate(R.layout.view_error, null);
+            errorState = view.findViewById(R.id.layout_error);
+            errorState.setTag(ERROR);
+
+            errorStateImageView = view.findViewById(R.id.image_icon);
+            errorStateTitleTextView = view.findViewById(R.id.text_title);
+            errorStateContentTextView = view.findViewById(R.id.text_description);
+            errorStateButton = view.findViewById(R.id.button_retry);
+
+            errorStateImageView.getLayoutParams().width = errorStateImageWidth;
+            errorStateImageView.getLayoutParams().height = errorStateImageHeight;
+            errorStateImageView.requestLayout();
+
+            errorStateTitleTextView.setTextSize(errorStateTitleTextSize);
+            errorStateTitleTextView.setTextColor(errorStateTitleTextColor);
+
+            errorStateContentTextView.setTextSize(errorStateContentTextSize);
+            errorStateContentTextView.setTextColor(errorStateContentTextColor);
+
+            errorStateButton.setTextColor(errorStateButtonTextColor);
+            errorStateButton.getBackground().setColorFilter(new LightingColorFilter(1, errorStateButtonBackgroundColor));
+
+            if (errorStateBackgroundColor != Color.TRANSPARENT) {
+                this.setBackgroundColor(errorStateBackgroundColor);
+            }
+
+            LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.topToTop = ConstraintSet.PARENT_ID;
+            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
+            layoutParams.startToStart = ConstraintSet.PARENT_ID;
+            layoutParams.endToEnd = ConstraintSet.PARENT_ID;
+
+            addView(errorState, layoutParams);
+        } else {
+            errorState.setVisibility(VISIBLE);
         }
     }
 
-    private void restoreDefaultBackground() {
-        this.setBackgroundDrawable(defaultBackground);
+    @Override
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
+        super.addView(child, index, params);
+
+        if (child.getTag() == null || (!child.getTag().equals(LOADING) &&
+                !child.getTag().equals(EMPTY) && !child.getTag().equals(ERROR))) {
+
+            contentViews.add(child);
+        }
+    }
+
+    @Override
+    public String getCurrentState() {
+        return state;
+    }
+
+    @Override
+    public boolean isContentCurrentState() {
+        return state.equals(CONTENT);
+    }
+
+    @Override
+    public boolean isLoadingCurrentState() {
+        return state.equals(LOADING);
+    }
+
+    @Override
+    public boolean isEmptyCurrentState() {
+        return state.equals(EMPTY);
+    }
+
+    @Override
+    public boolean isErrorCurrentState() {
+        return state.equals(ERROR);
     }
 }

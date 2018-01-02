@@ -1,4 +1,4 @@
-<com.vlonjatg.progressactivity.ProgressConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.vlonjatg.progressactivity.ProgressLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
     android:id="@+id/progress"
     android:layout_width="match_parent"
@@ -20,25 +20,32 @@
         android:layout_width="fill_parent"
         android:layout_height="56dp"
         android:elevation="2dp"
-        android:theme="@style/Toolbar" />
+        android:theme="@style/Toolbar"
+        progressActivity:layout_constraintEnd_toEndOf="parent"
+        progressActivity:layout_constraintStart_toStartOf="parent"
+        progressActivity:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_hello"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activityToolbar"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="56dp"
         android:gravity="center"
-        android:text="@string/hello_world" />
+        android:text="@string/hello_world"
+        progressActivity:layout_constraintBottom_toBottomOf="parent"
+        progressActivity:layout_constraintEnd_toEndOf="parent"
+        progressActivity:layout_constraintStart_toStartOf="parent"
+        progressActivity:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_hello"
-        android:layout_gravity="center_horizontal|bottom"
-        android:text="Hi" />
+        android:layout_gravity="center_horizontal"
+        android:text="Hi"
+        progressActivity:layout_constraintBottom_toBottomOf="parent"
+        progressActivity:layout_constraintEnd_toEndOf="parent"
+        progressActivity:layout_constraintStart_toStartOf="parent" />
 
-</com.vlonjatg.progressactivity.ProgressConstraintLayout>
+</com.vlonjatg.progressactivity.ProgressLinearLayout>
 

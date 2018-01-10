@@ -1,4 +1,4 @@
-<com.vlonjatg.progressactivity.ProgressLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.vlonjatg.progressactivity.ProgressConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:progressActivity="http://schemas.android.com/apk/res-auto"
     android:id="@+id/progress"
     android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:id="@+id/text_hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:layout_marginTop="56dp"
         android:gravity="center"
         android:text="@string/hello_world"
@@ -47,5 +47,5 @@
         progressActivity:layout_constraintEnd_toEndOf="parent"
         progressActivity:layout_constraintStart_toStartOf="parent" />
 
-</com.vlonjatg.progressactivity.ProgressLinearLayout>
+</com.vlonjatg.progressactivity.ProgressConstraintLayout>
 

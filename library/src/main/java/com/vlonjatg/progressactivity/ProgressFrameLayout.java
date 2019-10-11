@@ -53,6 +53,8 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
     private int loadingStateProgressBarColor;
     private int loadingStateBackgroundColor;
 
+    private int emptyOrErrorTopOffset;
+
     private int emptyStateImageWidth;
     private int emptyStateImageHeight;
     private int emptyStateTitleTextSize;
@@ -104,6 +106,10 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
 
         loadingStateBackgroundColor =
                 typedArray.getColor(R.styleable.ProgressActivity_loadingBackgroundColor, Color.TRANSPARENT);
+
+        // Offset Attrs
+        emptyOrErrorTopOffset =
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyOrErrorTopOffset, 0);
 
         //Empty state attrs
         emptyStateImageWidth =
@@ -381,6 +387,7 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
             LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
+            layoutParams.topMargin = emptyOrErrorTopOffset;
 
             addView(emptyState, layoutParams);
         } else {
@@ -419,6 +426,7 @@ public class ProgressFrameLayout extends FrameLayout implements ProgressLayout {
             LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = Gravity.CENTER;
+            layoutParams.topMargin = emptyOrErrorTopOffset;
 
             addView(errorState, layoutParams);
         } else {

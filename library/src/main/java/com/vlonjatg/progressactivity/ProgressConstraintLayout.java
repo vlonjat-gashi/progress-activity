@@ -53,6 +53,8 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
     private int loadingStateProgressBarColor;
     private int loadingStateBackgroundColor;
 
+    private int emptyOrErrorTopOffset;
+
     private int emptyStateImageWidth;
     private int emptyStateImageHeight;
     private int emptyStateTitleTextSize;
@@ -104,6 +106,10 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
 
         loadingStateBackgroundColor =
                 typedArray.getColor(R.styleable.ProgressActivity_loadingBackgroundColor, Color.TRANSPARENT);
+
+        // Offset Attrs
+        emptyOrErrorTopOffset =
+                typedArray.getDimensionPixelSize(R.styleable.ProgressActivity_emptyOrErrorTopOffset, 0);
 
         //Empty state attrs
         emptyStateImageWidth =
@@ -387,6 +393,7 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
             layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
             layoutParams.startToStart = ConstraintSet.PARENT_ID;
             layoutParams.endToEnd = ConstraintSet.PARENT_ID;
+            layoutParams.topMargin = emptyOrErrorTopOffset;
 
             addView(emptyState, layoutParams);
         } else {
@@ -428,6 +435,7 @@ public class ProgressConstraintLayout extends ConstraintLayout implements Progre
             layoutParams.bottomToBottom = ConstraintSet.PARENT_ID;
             layoutParams.startToStart = ConstraintSet.PARENT_ID;
             layoutParams.endToEnd = ConstraintSet.PARENT_ID;
+            layoutParams.goneTopMargin = emptyOrErrorTopOffset;
 
             addView(errorState, layoutParams);
         } else {

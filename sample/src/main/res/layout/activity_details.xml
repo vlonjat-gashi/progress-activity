@@ -15,7 +15,7 @@
     progressActivity:loadingBackgroundColor="#FFFFFF"
     progressActivity:loadingProgressBarColor="#9C27B0">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="fill_parent"
         android:layout_height="56dp"
